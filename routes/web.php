@@ -29,3 +29,9 @@ Route::group(['prefix' => 'barang_baru'], function(){
     Route::post('/list', [BarangBaruController::class, 'list']);
     Route::get('/create', [BarangBaruController::class, 'create']);
 });
+Route::group(['prefix' => 'barang_masuk'], function(){
+    Route::get('/', [BarangMasukController::class, 'index']);
+    Route::post('/list', [BarangMasukController::class, 'list']);
+    Route::get('/create', [BarangMasukController::class, 'create']);
+    Route::post('/list_form', [BarangMasukController::class, 'list_form']);
+});
