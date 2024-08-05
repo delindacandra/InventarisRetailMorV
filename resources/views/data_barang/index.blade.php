@@ -23,6 +23,9 @@
                     </div>
                 </div>
             </div>
+            <div class="card-tools float-right">
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
+            </div>
             <table class="table-bordered table-striped table-hover table-sm table" id="table_barang">
                 <thead>
                     <tr>
@@ -89,8 +92,9 @@
                         searchable: false
                     }, {
                         data: "image",
-                        render: function(data, type, row){
-                            return '<img src="{{asset('storage/barang/')}}/' + row.image+ '"alt="Foto Barang" style="max-height: 200px">';
+                        render: function(data, type, row) {
+                            return '<img src="{{ asset('storage/barang/') }}/' + row.image +
+                                '"alt="Foto Barang" style="max-height: 200px">';
                         },
                         className: "",
                         orderable: false,

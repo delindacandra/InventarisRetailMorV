@@ -43,6 +43,54 @@ class DataBarangController extends Controller
             ->make(true);
     }
 
+    public function create()
+    {
+        $breadcrumb = (object)[
+            'title' => 'Form Barang Baru',
+            'list' => ['Home', 'Barang Baru', 'Form']
+        ];
+
+        $page = (object)[
+            'title' => 'Tambah data baru'
+        ];
+        $kategori = KategoriModel::all();
+        $activeMenu =  'data_barang';
+
+        return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kode_barang' => 'required|string',
+            'nama_barang' => 'required|string',
+            'kategori_id' => 'required|integer',
+            'jumlah' => 'required|integer',
+            'image' => 'required|mimes:png,jpg,jpeg',
+            'harga' => 'required|integer',
+            'tanggal_diterima' => 'required|date',
+        ]);
+
+        $image = $request->file('image');
+        $fileName = date('Y-m-d') . $image->getClientOriginalExtension();
+        $path = 'barang/' . $fileName;
+
+        Storage::disk('public')->put($path, file_get_contents($image));
+
+        // dd($request->all());
+
+        BarangModel::create([
+            'kode_barang' => $request->kode_barang,
+            'nama_barang' => $request->nama_barang,
+            'kategori_id' => $request->kategori_id,
+            'jumlah' => $request->jumlah,
+            'image' => $fileName,
+            'harga' => $request->harga,
+            'tanggal_diterima' => $request->tanggal_diterima,
+        ]);
+        return redirect('/barang')->with('success', 'Data Barang berhasil ditambahkan');
+    }
+    
     public function edit(string $barang_id)
     {
         $barang = BarangModel::find($barang_id);
@@ -85,12 +133,12 @@ class DataBarangController extends Controller
         }
         // dd($request->all());
         $barang->update([
-                'kode_barang' => $request->kode_barang,
-                'nama_barang' => $request->nama_barang,
-                'jumlah' => $request->jumlah,
-                'harga' => $request->harga,
-                'kategori_id' => $request->kategori_id,
-            ]);
+            'kode_barang' => $request->kode_barang,
+            'nama_barang' => $request->nama_barang,
+            'jumlah' => $request->jumlah,
+            'harga' => $request->harga,
+            'kategori_id' => $request->kategori_id,
+        ]);
         return redirect('/barang')->with('success', 'Data user berhasil diubah');
     }
 
