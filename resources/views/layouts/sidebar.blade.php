@@ -27,7 +27,7 @@
             <!-- Add icons to the links using the .nav-icon class
    with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="{{url('dashboard')}}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }}">
+                <a href="{{ url('dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>
                         Dashboard
@@ -37,48 +37,50 @@
             </li>
             <li class="nav-header">FLOW BARANG</li>
             <li class="nav-item">
-                <a href="{{url('barang')}}" class="nav-link {{ ($activeMenu == 'data_barang')? 'active' : '' }}">
+                <a href="{{ url('barang') }}" class="nav-link {{ $activeMenu == 'data_barang' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cubes"></i>
                     <p>
                         Data Barang
-                        {{-- <span class="right badge badge-danger">New</span> --}}
+
                     </p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('barang_baru')}}" class="nav-link {{ ($activeMenu == 'barang_baru')? 'active' : '' }}">
+                <a href="{{ url('barang_baru') }}" class="nav-link {{ $activeMenu == 'barang_baru' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box"></i>
                     <p>
                         Barang Baru
-                        {{-- <span class="right badge badge-danger">New</span> --}}
+
                     </p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('barang_masuk')}}" class="nav-link {{ ($activeMenu == 'barang_masuk')? 'active' : '' }}">
+                <a href="{{ url('barang_masuk') }}"
+                    class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-truck-loading"></i>
                     <p>
                         Barang Masuk
-                        {{-- <span class="right badge badge-danger">New</span> --}}
+
                     </p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('barang_keluar')}}" class="nav-link {{ ($activeMenu == 'barang_keluar')? 'active' : '' }}">
+                <a href="{{ url('barang_keluar') }}"
+                    class="nav-link {{ $activeMenu == 'barang_keluar' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-truck-moving"></i>
                     <p>
                         Barang Keluar
-                        {{-- <span class="right badge badge-danger">New</span> --}}
+
                     </p>
                 </a>
             </li>
             <li class="nav-header">TAMBAHAN</li>
             <li class="nav-item">
-                <a href="{{url('user')}}" class="nav-link {{ ($activeMenu == 'user')? 'active' : '' }}">
+                <a href="{{ url('user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
                         User
-                        {{-- <span class="right badge badge-danger">New</span> --}}
+
                     </p>
                 </a>
             </li>
