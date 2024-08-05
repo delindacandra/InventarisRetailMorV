@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BarangBaruController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
@@ -22,17 +21,9 @@ Route::get('dashboard', [DashboardController::class, 'index']);
 Route::group(['prefix' => 'barang'], function () {
     Route::get('/', [DataBarangController::class, 'index']);
     Route::post('/list', [DataBarangController::class, 'list']);
-    Route::get('/{id}', [DataBarangController::class, 'show']);
     Route::get('/{id}/edit', [DataBarangController::class, 'edit']);
     Route::put('/{id}', [DataBarangController::class, 'update']);
-    Route::delete('/{id}', [DataBarangController::class, 'destroy']); 
-
-});
-
-Route::group(['prefix' => 'barang_baru'], function () {
-    Route::get('/', [BarangBaruController::class, 'index']);
-    Route::post('/list', [BarangBaruController::class, 'list']);
-    Route::get('/create', [BarangBaruController::class, 'create']);
+    Route::delete('/{id}', [DataBarangController::class, 'destroy']);
 });
 Route::group(['prefix' => 'barang_masuk'], function () {
     Route::get('/', [BarangMasukController::class, 'index']);
