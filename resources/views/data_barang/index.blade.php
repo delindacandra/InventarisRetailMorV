@@ -89,6 +89,9 @@
                         searchable: false
                     }, {
                         data: "image",
+                        render: function(data, type, row){
+                            return '<img src="{{asset('storage/barang/')}}/' + row.image+ '"alt="Foto Barang" style="max-height: 200px">';
+                        },
                         className: "",
                         orderable: false,
                         searchable: false
