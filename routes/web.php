@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\BarangBaruController;
+use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataBarangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('dashboard', [DashboardController::class, 'index']);
+Route::group(['prefix' => 'barang'], function () {
+    Route::get('/', [DataBarangController::class, 'index']);
+    Route::post('/list', [DataBarangController::class, 'list']);
 });
