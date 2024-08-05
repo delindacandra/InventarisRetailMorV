@@ -36,7 +36,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-blue elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ url('dashboard') }}" class="brand-link">
+            <a class="brand-link">
                 <img src="images\logo_pertamina.png" alt="Logo" class="brand-image" style="opacity: .8">
                 <span class="brand-text font-weight-light">Inventory Retail Sales</span>
             </a>
