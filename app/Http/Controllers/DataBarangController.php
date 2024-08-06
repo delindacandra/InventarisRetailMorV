@@ -26,8 +26,8 @@ class DataBarangController extends Controller
         $barangs = BarangModel::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'jumlah', 'harga', 'image', 'tanggal_diterima')
             ->with('kategori');
 
-        if ($request->barang_id) {
-            $barangs->where('barang_id', $request->barang_id);
+        if ($request->kategori_id) {
+            $barangs->where('kategori_id', $request->kategori_id);
         }
 
         return DataTables::of($barangs)
