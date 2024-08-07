@@ -23,7 +23,7 @@ class DataBarangController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'jumlah', 'harga', 'image', 'tanggal_diterima')
+        $barangs = BarangModel::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'harga', 'image',)
             ->with('kategori');
 
         if ($request->kategori_id) {
@@ -54,9 +54,18 @@ class DataBarangController extends Controller
             'title' => 'Tambah data baru'
         ];
         $kategori = KategoriModel::all();
+        $lastItem = BarangModel::latest()->first();
+
+        if ($lastItem) {
+            $lastKodeNumber = intval(substr($lastItem->kode_barang, 2));
+            $newKodeBarang = 'BP' . sprintf('%03d', $lastKodeNumber + 1);
+        } else {
+            $newKodeBarang = 'BP001';
+        }
+
         $activeMenu =  'data_barang';
 
-        return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
+        return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request)
@@ -65,10 +74,8 @@ class DataBarangController extends Controller
             'kode_barang' => 'required|string',
             'nama_barang' => 'required|string',
             'kategori_id' => 'required|integer',
-            'jumlah' => 'required|integer',
             'image' => 'required|mimes:png,jpg,jpeg',
             'harga' => 'required|integer',
-            'tanggal_diterima' => 'required|date',
         ]);
 
         $image = $request->file('image');
@@ -83,14 +90,12 @@ class DataBarangController extends Controller
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
             'kategori_id' => $request->kategori_id,
-            'jumlah' => $request->jumlah,
             'image' => $fileName,
             'harga' => $request->harga,
-            'tanggal_diterima' => $request->tanggal_diterima,
         ]);
         return redirect('/barang')->with('success', 'Data Barang berhasil ditambahkan');
     }
-    
+
     public function edit(string $barang_id)
     {
         $barang = BarangModel::find($barang_id);
@@ -112,7 +117,6 @@ class DataBarangController extends Controller
         $request->validate([
             'kode_barang' => 'required|string|unique:data_barang,barang_id,' . $barang_id . ',barang_id',
             'nama_barang' => 'required|string',
-            'jumlah' => 'required|integer',
             'harga' => 'required|integer',
             'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
             'kategori_id' => 'required|integer'
@@ -135,7 +139,6 @@ class DataBarangController extends Controller
         $barang->update([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
-            'jumlah' => $request->jumlah,
             'harga' => $request->harga,
             'kategori_id' => $request->kategori_id,
         ]);
