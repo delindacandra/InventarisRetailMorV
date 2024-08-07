@@ -14,6 +14,11 @@ class BarangModel extends Model
     protected $primaryKey = 'barang_id';
     protected $fillable = ['kode_barang', 'nama_barang', 'kategori_id',  'jumlah', 'harga', 'image', 'tanggal_diterima'];
 
+    public function stok()
+    {
+        return $this->hasOne(StokModel::class, 'barang_id', 'barang_id');
+    }
+
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id');

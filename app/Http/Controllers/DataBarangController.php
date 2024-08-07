@@ -23,8 +23,7 @@ class DataBarangController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'harga', 'image',)
-            ->with('kategori');
+        $barangs = BarangModel::with(['kategori', 'stok']);
 
         if ($request->kategori_id) {
             $barangs->where('kategori_id', $request->kategori_id);
@@ -32,6 +31,9 @@ class DataBarangController extends Controller
 
         return DataTables::of($barangs)
             ->addIndexColumn()
+            ->addColumn('stok', function ($barang) {
+                return $barang->stok ? $barang->stok->stok : 'N/A';
+            })
             ->addColumn('aksi', function ($barang) {
                 $btn = '<a href="' . url('/barang/' . $barang->barang_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang/' . $barang->barang_id) . '">'
