@@ -12,7 +12,7 @@
                         <label class="col-2 pl-5 control-label col-form-label">Kode Barang</label>
                         <div class="col-5">
                             <input type="text" class="form-control" id="kode_barang" name="kode_barang"
-                                value="{{ old('kode_barang') }}" required>
+                                value="{{ $newKodeBarang }}" readonly>
                             @error('kode_barang')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -32,19 +32,9 @@
                         <div class="col-5"> <select class="form-control" id="kategori_id" name="kategori_id" required>
                                 <option value="">- Pilih Kategori Barang -</option>
                                 @foreach ($kategori as $item)
-                                <option value="{{ $item->kategori_id }}">{{ $item->nama_kategori }}</option>
-                            @endforeach
+                                    <option value="{{ $item->kategori_id }}">{{ $item->nama_kategori }}</option>
+                                @endforeach
                             </select> @error('kategori_id')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-2 pl-5 control-label col-form-label">Jumlah</label>
-                        <div class="col-2">
-                            <input type="number" class="form-control" id="jumlah" name="jumlah" min="1"
-                                value="{{ old('jumlah') }}" required>
-                            @error('jumlah')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -64,16 +54,6 @@
                             <input type="number" class="form-control" id="harga" name="harga"
                                 value="{{ old('harga') }}" required>
                             @error('harga')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-2 pl-5 control-label col-form-label">Tanggal Diterima</label>
-                        <div class="col-5">
-                            <input type="date" class="form-control" id="tanggal_diterima" name="tanggal_diterima"
-                                value="{{ old('tanggal_diterima') }}" required>
-                            @error('tanggal_diterima')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>

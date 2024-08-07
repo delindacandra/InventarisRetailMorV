@@ -39,13 +39,6 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row"> <label class="col-3 control-label col-form-label">Stok</label>
-                        <div class="col-9"> <input type="number" class="form-control" id="jumlah" name="jumlah"
-                                value="{{ old('jumlah', $barang->jumlah) }}" required> @error('jumlah')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="form-group row"> <label class="col-3 control-label col-form-label">Harga Barang</label>
                         <div class="col-9"> <input type="number" class="form-control" id="harga" name="harga"
                                 value="{{ old('harga', $barang->harga) }}" required> @error('harga')

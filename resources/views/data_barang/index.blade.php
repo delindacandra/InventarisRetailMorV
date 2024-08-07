@@ -33,8 +33,7 @@
                         <th>Kode Barang </th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
-                        <th>Stok</th>
-                        <th> Harga Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
@@ -77,12 +76,6 @@
                         data: "kategori.nama_kategori",
                         className: "",
                         orderable: true,
-                        searchable: false
-                    },
-                    {
-                        data: "jumlah",
-                        className: "",
-                        orderable: false,
                         searchable: false
                     },
                     {
