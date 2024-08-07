@@ -12,10 +12,5 @@ class BarangMasukModel extends Model
 
     protected $table = 'barang_masuk';
     protected $primaryKey = 'barang_masuk_id';
-    protected $fillable = ['barang_id', 'jumlah', 'keterangan', 'tanggal_diterima'];
-
-    public function barang(): BelongsTo
-    {
-        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
-    }
+    protected $fillable = ['kode_barang_masuk', 'tanggal_masuk'];
 }
