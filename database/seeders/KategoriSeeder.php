@@ -43,6 +43,12 @@ class KategoriSeeder extends Seeder
                 'nama_kategori' => 'Mainan Anak',
 
             ],
+            [
+                'kategori_id' => 6,
+                'kode_kategori' => 'BRG06',
+                'nama_kategori' => 'Elektronik',
+
+            ],
         ];
         DB::table('kategori_barang')->insert($data);
     }
