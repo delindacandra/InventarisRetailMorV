@@ -33,6 +33,7 @@
                         <th>Kode Barang </th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
+                        <th>Stok</th>
                         <th>Harga Satuan</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
@@ -55,6 +56,7 @@
                     "type": "POST",
                     "data": function(d) {
                         d.kategori_id = $('#kategori_id').val();
+                        d._token = "{{ csrf_token() }}";
                     }
                 },
                 columns: [{
@@ -76,6 +78,12 @@
                         data: "kategori.nama_kategori",
                         className: "",
                         orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: "stok",
+                        className: "",
+                        orderable: false,
                         searchable: false
                     },
                     {
