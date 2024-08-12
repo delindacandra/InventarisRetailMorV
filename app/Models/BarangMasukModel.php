@@ -12,5 +12,10 @@ class BarangMasukModel extends Model
 
     protected $table = 'barang_masuk';
     protected $primaryKey = 'barang_masuk_id';
-    protected $fillable = ['kode_barang_masuk', 'tanggal_masuk'];
+    protected $fillable = ['kode_barang_masuk', 'tanggal_diterima'];
+
+    public function detailbarangMasuk()
+    {
+        return $this->hasMany(DetailBarangMasukModel::class, 'barang_masuk_id', 'barang_masuk_id');
+    }
 }

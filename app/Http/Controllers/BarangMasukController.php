@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangMasukModel;
 use App\Models\BarangModel;
+use App\Models\DetailBarangMasukModel;
 use App\Models\KategoriModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangMasukController extends Controller
@@ -23,15 +26,22 @@ class BarangMasukController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangMasukModel::select('barang_masuk_id', 'barang_id', 'jumlah', 'keterangan', 'tanggal_diterima')
-            ->with('barang');
+        $barangMasuks = BarangMasukModel::select('barang_masuk_id', 'kode_barang_masuk', 'tanggal_diterima');
 
-        if ($request->barang_id) {
-            $barangs->where('barang_id', $request->barang_id);
+        if ($request->tanggal_diterima) {
+            $barangMasuks->where('tanggal_diterima', $request->tanggal_diterima);
         }
 
-        return DataTables::of($barangs)
+        return DataTables::of($barangMasuks)
             ->addIndexColumn()
+            ->addColumn('aksi', function ($barangMasuk) {
+                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id . '/detail') . '" class="btn btn-warning btn-sm">Detail</a> ';
+                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id) . '">'
+                    . csrf_field() . method_field('DELETE') .
+                    '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
             ->make(true);
     }
 
@@ -47,14 +57,23 @@ class BarangMasukController extends Controller
         ];
         $barang = BarangModel::all();
         $kategori = KategoriModel::all();
+
+        $lastItem = BarangMasukModel::latest()->first();
+
+        if ($lastItem) {
+            $lastKodeNumber = intval(substr($lastItem->kode_barang_masuk, 2));
+            $newKodeBarang = 'BM' . sprintf('%03d', $lastKodeNumber + 1);
+        } else {
+            $newKodeBarang = 'BM001';
+        }
+
         $activeMenu = 'barang_masuk';
-        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
+        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'activeMenu' => $activeMenu]);
     }
 
     public function list_form(Request $request)
     {
-        $barangs = BarangModel::select('kode_barang', 'nama_barang', 'kategori_id', 'harga', 'jumlah', 'image', 'tanggal_diterima')
-            ->with('kategori');
+        $barangs = BarangModel::with(['kategori', 'stok']);
 
         if ($request->kategori_id) {
             $barangs->where('kategori_id', $request->kategori_id);
@@ -62,6 +81,9 @@ class BarangMasukController extends Controller
 
         return DataTables::of($barangs)
             ->addIndexColumn()
+            ->addColumn('stok', function ($barang) {
+                return $barang->stok ? $barang->stok->stok : 'N/A';
+            })
             ->addColumn('aksi', function ($barang) {
                 $btn = '<a href="' . url('/barang/' . $barang->barang_id) . '" class="btn btn-info btn-sm">Tambah</a> ';
                 return $btn;
@@ -69,4 +91,50 @@ class BarangMasukController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kode_barang_masuk' => 'required|string',
+            'tanggal_diterima' => 'required|date',
+            'keterangan' => 'required|string',
+            'items' => 'required|string'
+        ]);
+        // dd($request->all());
+        $barangMasuk = BarangMasukModel::create([
+            'kode_barang_masuk' => $request->kode_barang_masuk,
+            'tanggal_diterima' => $request->tanggal_diterima,
+        ]);
+
+        // dd($request->all());
+        $items = json_decode($request->items, true);
+        foreach ($items as $item) {
+            DetailBarangMasukModel::create([
+                'barang_masuk_id' => $barangMasuk->barang_masuk_id,
+                'barang_id' => $item['barang_id'],
+                'keterangan' => $request->keterangan,
+                'jumlah' => $item['jumlah'],
+            ]);
+        }
+
+        return redirect('/barang_masuk')->with('success', 'Data barang masuk berhasil disimpan.');
+    }
+
+    // public function destroy(string $barang_masuk_id)
+    // {
+    //     DB::beginTransaction();
+    //     $check = BarangMasukModel::find($barang_masuk_id);
+    //     if (!$check) {
+    //         return redirect('/barang_masuk')->with('error', 'Data barang tidak ditemukan');
+    //     }
+    //     DetailBarangMasukModel::where('')
+    //     $check->delete();
+    //     DB::commit();
+    //     try {
+    //         BarangModel::destroy($barang_masuk_id);
+    //         return redirect('/barang_masuk')->with('success', 'Data barang berhasil dihapus');
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         return redirect('/barang_masuk')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+    //     }
+    // }
 }

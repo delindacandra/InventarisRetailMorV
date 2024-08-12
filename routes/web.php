@@ -6,21 +6,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('dashboard', [DashboardController::class, 'index']);
 Route::group(['prefix' => 'barang'], function () {
     Route::get('/', [DataBarangController::class, 'index']);
     Route::post('/list', [DataBarangController::class, 'list']);
+    Route::get('/create', [DataBarangController::class, 'create']);
+    Route::post('/', [DataBarangController::class, 'store']);
     Route::get('/{id}/edit', [DataBarangController::class, 'edit']);
     Route::put('/{id}', [DataBarangController::class, 'update']);
     Route::delete('/{id}', [DataBarangController::class, 'destroy']);
@@ -30,6 +21,8 @@ Route::group(['prefix' => 'barang_masuk'], function () {
     Route::post('/list', [BarangMasukController::class, 'list']);
     Route::get('/create', [BarangMasukController::class, 'create']);
     Route::post('/list_form', [BarangMasukController::class, 'list_form']);
+    Route::post('/', [BarangMasukController::class, 'store']);
+    Route::delete('/delete', [BarangMasukController::class, 'destroy']);
 });
 Route::group(['prefix' => 'barang_keluar'], function () {
     Route::get('/', [BarangKeluarController::class, 'index']);
