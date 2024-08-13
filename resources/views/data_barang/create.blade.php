@@ -49,6 +49,16 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-2 pl-5 control-label col-form-label">Jumlah Barang</label>
+                        <div class="col-5">
+                            <input type="number" class="form-control" id="stok" name="stok"
+                                value="{{ old('stok') }}" required>
+                            @error('stok')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-2 pl-5 control-label col-form-label">Harga Satuan</label>
                         <div class="col-5">
                             <input type="number" class="form-control" id="harga" name="harga"
@@ -58,6 +68,27 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-2 pl-5 control-label col-form-label">Tanggal</label>
+                        <div class="col-5">
+                            <input type="date" class="form-control" id="tanggal_stok" name="tanggal_stok"
+                                value="{{ old('tanggal_stok') }}" required>
+                            @error('tanggal_stok')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{-- <label class="col-2 pl-5 control-label col-form-label">Kode Stok</label> --}}
+                        <div class="col-5">
+                            <input type="hidden" class="form-control" id="kode_stok" name="kode_stok"
+                                value="{{ $newKodeStok }}" readonly>
+                            @error('kode_stok')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label class="col-2 pl-5 control-label col-form-label"></label>
                         <div class="col-5">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
+use App\Models\StokModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -56,8 +57,8 @@ class DataBarangController extends Controller
             'title' => 'Tambah data baru'
         ];
         $kategori = KategoriModel::all();
-        $lastItem = BarangModel::latest()->first();
 
+        $lastItem = BarangModel::latest()->first();
         if ($lastItem) {
             $lastKodeNumber = intval(substr($lastItem->kode_barang, 2));
             $newKodeBarang = 'BP' . sprintf('%03d', $lastKodeNumber + 1);
@@ -65,9 +66,17 @@ class DataBarangController extends Controller
             $newKodeBarang = 'BP001';
         }
 
+        $lastItem = StokModel::latest()->first();
+        if ($lastItem) {
+            $lastKodeStok = intval(substr($lastItem->kode_stok, 2));
+            $newKodeStok = 'ST' . sprintf('%03d', $lastKodeStok + 1);
+        } else {
+            $newKodeStok = 'ST001';
+        }
+
         $activeMenu =  'data_barang';
 
-        return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'activeMenu' => $activeMenu]);
+        return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'newKodeStok' => $newKodeStok, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request)
@@ -78,6 +87,9 @@ class DataBarangController extends Controller
             'kategori_id' => 'required|integer',
             'image' => 'required|mimes:png,jpg,jpeg',
             'harga' => 'required|integer',
+            'kode_stok' => 'required|string',
+            'stok' => 'required|integer',
+            'tanggal_stok' => 'required|date',
         ]);
 
         $image = $request->file('image');
@@ -88,12 +100,20 @@ class DataBarangController extends Controller
 
         // dd($request->all());
 
-        BarangModel::create([
+        $barang = BarangModel::create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
             'kategori_id' => $request->kategori_id,
             'image' => $fileName,
             'harga' => $request->harga,
+        ]);
+
+        StokModel::create([
+            'kode_stok' => $request->kode_stok,
+            'barang_id' => $barang->barang_id,
+            'stok' => $request->stok,
+            'tanggal_stok' => $request->tanggal_stok,
+
         ]);
         return redirect('/barang')->with('success', 'Data Barang berhasil ditambahkan');
     }
@@ -109,9 +129,12 @@ class DataBarangController extends Controller
         ];
         $page = (object)[
             'title' => ' Form Edit'
-        ];;
+        ];
+
+        $stok = StokModel::find($barang_id);
+
         $activeMenu = 'data_barang';
-        return view('data_barang.edit', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'barang' => $barang, 'kategori' => $kategori, 'page' => $page]);
+        return view('data_barang.edit', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'barang' => $barang, 'kategori' => $kategori, 'stok' => $stok, 'page' => $page]);
     }
 
     public function update(Request $request, string $barang_id)
@@ -121,7 +144,8 @@ class DataBarangController extends Controller
             'nama_barang' => 'required|string',
             'harga' => 'required|integer',
             'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
-            'kategori_id' => 'required|integer'
+            'kategori_id' => 'required|integer',
+            'stok' => 'required|integer',
         ]);
 
         $barang = BarangModel::find($barang_id);
@@ -144,6 +168,13 @@ class DataBarangController extends Controller
             'harga' => $request->harga,
             'kategori_id' => $request->kategori_id,
         ]);
+
+        StokModel::updateOrCreate(
+            ['barang_id' => $barang_id],
+            [
+                'stok' => $request->stok
+            ],
+        );
         return redirect('/barang')->with('success', 'Data user berhasil diubah');
     }
 

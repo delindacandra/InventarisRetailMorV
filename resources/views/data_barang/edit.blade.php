@@ -11,7 +11,8 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5> Data yang Anda cari tidak ditemukan.
                 </div> <a href="{{ url('barang') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/barang/' . $barang->barang_id) }}" class="form-horizontal" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('/barang/' . $barang->barang_id) }}" class="form-horizontal"
+                    enctype="multipart/form-data">
                     @csrf {!! method_field('PUT') !!} <!-- tambahkan baris ini untuk proses edit yang butuh method PUT -->
                     <div class="form-group row"> <label class="col-3 control-label col-form-label">Kode Barang</label>
                         <div class="col-9"> <input type="text" class="form-control" id="kode_barang" name="kode_barang"
@@ -35,6 +36,16 @@
                                         {{ $item->nama_kategori }}</option>
                                 @endforeach
                             </select> @error('kategori_id')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-3 control-label col-form-label">Jumlah Barang</label>
+                        <div class="col-9">
+                            <input type="number" class="form-control" id="stok" name="stok"
+                                value="{{ old('stok', $stok->stok) }}" required>
+                            @error('stok')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
