@@ -93,7 +93,7 @@ class DataBarangController extends Controller
         ]);
 
         $image = $request->file('image');
-        $fileName = date('Y-m-d') . $image->getClientOriginalExtension();
+        $fileName = date('Y-m-d') . '-' . $image->getClientOriginalName();
         $path = 'barang/' . $fileName;
 
         Storage::disk('public')->put($path, file_get_contents($image));
