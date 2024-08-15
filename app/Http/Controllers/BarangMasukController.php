@@ -35,7 +35,7 @@ class BarangMasukController extends Controller
         return DataTables::of($barangMasuks)
             ->addIndexColumn()
             ->addColumn('aksi', function ($barangMasuk) {
-                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id . '/detail') . '" class="btn btn-warning btn-sm">Detail</a> ';
+                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id . '/') . '" class="btn btn-warning btn-sm">Detail</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id) . '">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
@@ -100,13 +100,12 @@ class BarangMasukController extends Controller
             'keterangan' => 'required|string',
             'items' => 'required|string'
         ]);
-        // dd($request->all());
+
         $barangMasuk = BarangMasukModel::create([
             'kode_barang_masuk' => $request->kode_barang_masuk,
             'tanggal_diterima' => $request->tanggal_diterima,
         ]);
 
-        // dd($request->all());
         $items = json_decode($request->items, true);
         foreach ($items as $item) {
             DetailBarangMasukModel::create([
@@ -115,9 +114,40 @@ class BarangMasukController extends Controller
                 'keterangan' => $request->keterangan,
                 'jumlah' => $item['jumlah'],
             ]);
+
+            // Update stok barang
+            $barang = BarangModel::find($item['barang_id']);
+            if ($barang && $barang->stok) {
+                $barang->stok->stok = (int)$barang->stok->stok + (int)$item['jumlah'];
+                $barang->stok->save();
+            }
         }
 
         return redirect('/barang_masuk')->with('success', 'Data barang masuk berhasil disimpan.');
+    }
+
+    public function show(string $id)
+    {
+        $detail_barang_masuk = DetailBarangMasukModel::where('barang_masuk_id', $id)->get();
+        if(!$detail_barang_masuk){
+            return redirect('/')->with('error', 'Detail barang masuk tidak ditemukan');
+        }
+
+        $breadcrumb = (object) [
+            'title' => 'Detail Barang Masuk',
+            'list' => ['Home', 'Barang Masuk', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Transaksi Penjualan'
+        ];
+
+
+        $barang_masuk = BarangMasukModel::find($id);
+
+        $activeMenu = 'barang_masuk';
+        return view('barang_masuk.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'detail_barang_masuk' => $detail_barang_masuk, 'barang_masuk' => $barang_masuk, 'activeMenu' => $activeMenu]);
+
     }
 
     // public function destroy(string $barang_masuk_id)

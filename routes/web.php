@@ -20,6 +20,7 @@ Route::group(['prefix' => 'barang_masuk'], function () {
     Route::get('/', [BarangMasukController::class, 'index']);
     Route::post('/list', [BarangMasukController::class, 'list']);
     Route::get('/create', [BarangMasukController::class, 'create']);
+    Route::get('/{id}', [BarangMasukController::class, 'show']);
     Route::post('/list_form', [BarangMasukController::class, 'list_form']);
     Route::post('/', [BarangMasukController::class, 'store']);
     Route::delete('/delete', [BarangMasukController::class, 'destroy']);
@@ -30,3 +31,4 @@ Route::group(['prefix' => 'barang_keluar'], function () {
     Route::get('/create', [BarangKeluarController::class, 'create']);
     Route::post('/list_form', [BarangKeluarController::class, 'list_form']);
 });
+
