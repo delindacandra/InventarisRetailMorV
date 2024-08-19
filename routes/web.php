@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
+use App\Http\Controllers\ProfileController;
 use App\Models\BarangKeluarModel;
 use Illuminate\Support\Facades\Route;
 
@@ -34,5 +35,9 @@ Route::group(['prefix' => 'barang_keluar'], function () {
     Route::post('/list_form', [BarangKeluarController::class, 'list_form']);
     Route::post('/', [BarangKeluarController::class, 'store']);
     Route::delete('/{id}', [BarangKeluarController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'profile'], function(){
+    Route::get('/', [ProfileController::class, 'index']);
 });
 

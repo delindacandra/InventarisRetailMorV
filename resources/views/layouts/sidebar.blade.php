@@ -5,7 +5,7 @@
             {{-- <img src="images\logo_pertamina.png" class="img-circle elevation-2" alt="User Image"> --}}
         </div>
         <div class="info">
-            <a href="#" class="d-block">Delinda Candrawati</a>
+            <a href="profile" class="d-block">Delinda Candrawati</a>
         </div>
     </div>
 
@@ -67,11 +67,10 @@
             </li>
             <li class="nav-header">TAMBAHAN</li>
             <li class="nav-item">
-                <a href="{{ url('user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
+                <a href="{{ url('profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
-                        User
-
+                        Profile
                     </p>
                 </a>
             </li>
