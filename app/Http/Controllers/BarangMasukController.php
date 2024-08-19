@@ -72,7 +72,7 @@ class BarangMasukController extends Controller
         }
 
         $activeMenu = 'barang_masuk';
-        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'barang' => $barang, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, ]);
+        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'barang' => $barang, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang,]);
     }
 
     public function list_form(Request $request)
@@ -133,7 +133,7 @@ class BarangMasukController extends Controller
     public function show(string $id)
     {
         $detail_barang_masuk = DetailBarangMasukModel::where('barang_masuk_id', $id)->get();
-        if(!$detail_barang_masuk){
+        if (!$detail_barang_masuk) {
             return redirect('/')->with('error', 'Detail barang masuk tidak ditemukan');
         }
 
@@ -151,24 +151,22 @@ class BarangMasukController extends Controller
 
         $activeMenu = 'barang_masuk';
         return view('barang_masuk.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'detail_barang_masuk' => $detail_barang_masuk, 'barang_masuk' => $barang_masuk, 'activeMenu' => $activeMenu]);
-
     }
 
-    // public function destroy(string $barang_masuk_id)
-    // {
-    //     DB::beginTransaction();
-    //     $check = BarangMasukModel::find($barang_masuk_id);
-    //     if (!$check) {
-    //         return redirect('/barang_masuk')->with('error', 'Data barang tidak ditemukan');
-    //     }
-    //     DetailBarangMasukModel::where('')
-    //     $check->delete();
-    //     DB::commit();
-    //     try {
-    //         BarangModel::destroy($barang_masuk_id);
-    //         return redirect('/barang_masuk')->with('success', 'Data barang berhasil dihapus');
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //         return redirect('/barang_masuk')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
-    //     }
-    // }
+    public function destroy(string $id)
+    {
+        $check = BarangMasukModel::find($id);
+        if (!$check) {
+            return redirect('/barang_masuk')->with('error', 'Data barang tidak ditemukan');
+        }
+
+        try {
+            DetailBarangMasukModel::where('barang_masuk_id', $id)->delete();
+
+            BarangMasukModel::destroy($id);
+            return redirect('/barang_masuk')->with('success', 'Data barang berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('/barang_masuk')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        }
+    }
 }
