@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
+use App\Models\BarangKeluarModel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [DashboardController::class, 'index']);
@@ -29,6 +30,8 @@ Route::group(['prefix' => 'barang_keluar'], function () {
     Route::get('/', [BarangKeluarController::class, 'index']);
     Route::post('/list', [BarangKeluarController::class, 'list']);
     Route::get('/create', [BarangKeluarController::class, 'create']);
+    Route::get('/{id}', [BarangKeluarController::class, 'show']);
     Route::post('/list_form', [BarangKeluarController::class, 'list_form']);
+    Route::post('/', [BarangKeluarController::class, 'store']);
 });
 
