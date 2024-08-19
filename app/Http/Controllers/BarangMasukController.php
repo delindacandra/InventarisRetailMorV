@@ -28,8 +28,12 @@ class BarangMasukController extends Controller
     {
         $barangMasuks = BarangMasukModel::select('barang_masuk_id', 'kode_barang_masuk', 'tanggal_diterima');
 
-        if ($request->tanggal_diterima) {
-            $barangMasuks->where('tanggal_diterima', $request->tanggal_diterima);
+        if ($request->has('start_date') && $request->start_date) {
+            $barangMasuks->whereDate('tanggal_diterima', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date') && $request->end_date) {
+            $barangMasuks->whereDate('tanggal_diterima', '<=', $request->end_date);
         }
 
         return DataTables::of($barangMasuks)
@@ -68,7 +72,7 @@ class BarangMasukController extends Controller
         }
 
         $activeMenu = 'barang_masuk';
-        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'activeMenu' => $activeMenu]);
+        return view('barang_masuk.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'barang' => $barang, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, ]);
     }
 
     public function list_form(Request $request)

@@ -19,7 +19,7 @@
                 <button id="filter_date" class="btn btn-primary ml-2">Filter</button>
             </div>
 
-            <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_baru">
+            <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_masuk">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -38,14 +38,13 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataBarang = $('#table_barang_baru').DataTable({
+            var dataBarang = $('#table_barang_masuk').DataTable({
                 serverSide: true,
                 ajax: {
                     "url": "{{ url('barang_masuk/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
-                        d.barang_id = $('#barang_id').val();
                         d.start_date = $('#start_date').val();
                         d.end_date = $('#end_date').val();
                     }
@@ -74,7 +73,7 @@
                 }, 
             ]});
 
-            $('#filter_date').on('change', function() {
+            $('#filter_date').on('click', function() {
                 dataBarang.ajax.reload();
             });
         });

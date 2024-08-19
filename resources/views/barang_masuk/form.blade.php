@@ -21,27 +21,30 @@
                             </div>
                         </div>
                     </div>
+
                     <table class="table-bordered table-striped table-hover table-sm table" id="table_barang">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
+                                <th>Kategori</th>
                                 <th>Stok</th>
-                                <th>Harga</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($barang as $barang)
-                                <tr>
+                                <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
+                                    <td>{{ $barang->kategori->nama_kategori }}</td>
                                     <td>{{ $barang->stok->stok }}</td>
-                                    <td>{{ $barang->harga }}</td>
                                     <td><button class="btn btn-success btn-sm tambah-barang"
-                                            data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}"
-                                            data-stok="{{ $barang->stok->stok }}"
-                                            data-harga="{{ $barang->harga }}">Tambah</button></td>
+                                            data-id="{{ $barang->barang_id }}"
+                                            data-nama="{{ $barang->nama_barang }}"
+                                            data-kategori="{{ $barang->kategori->nama_kategori }}"
+                                            data-stok="{{ $barang->stok->stok }}">
+                                            Tambah</button></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -49,6 +52,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="col-md-6">
             <div class="card card-outline card-primary">
@@ -85,13 +89,13 @@
                             </div>
                         </div>
 
+
                         <table class="table-bordered table-striped table-hover table-sm table" id="table-barang">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Barang</th>
-                                    <th>Stok</th>
-                                    <th>Harga</th>
+                                    <th>Kategori</th>
                                     <th>Jumlah</th>
                                 </tr>
                             </thead>
@@ -106,22 +110,39 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 @endsection
 
 @push('css')
 @endpush
 
+
 @push('js')
     <script>
+        $('#kategori_id').change(function() {
+            var selectedKategori = $(this).val();
+            $('#table_barang tbody tr').each(function() {
+                var rowKategori = $(this).data('kategori');
+                if (selectedKategori === "" || rowKategori == selectedKategori) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
         $('.tambah-barang').click(function() {
             var id = $(this).data('id');
             var nama = $(this).data('nama');
+            var kategori = $(this).data('kategori');
             var stok = $(this).data('stok');
-            var harga = $(this).data('harga');
             var jumlah = $(this).data('jumlah');
 
             // Cek barang sudah ada di tabel barang atau belum
@@ -136,12 +157,12 @@
                 $('#table-barang tbody').append(
                     '<tr data-id="' + id + '"><td>' + ($('#table-barang tbody tr').length + 1) +
                     '</td><td class="nama">' + nama +
+                    '</td><td class="kategori">' + kategori +
                     '</td><td class="stok">' + stok +
-                    '</td><td class="harga">' + harga +
                     '</td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
                 );
-            }
 
+            }
             // Update input tersembunyi dengan data barang
             updateHiddenItems();
         });
@@ -156,7 +177,6 @@
                     jumlah: jumlah
                 });
             });
-
             $('#items').val(JSON.stringify(items));
         }
     </script>
