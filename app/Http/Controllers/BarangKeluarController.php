@@ -164,4 +164,21 @@ class BarangKeluarController extends Controller
         $activeMenu = 'barang_keluar';
         return view('barang_keluar.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'detail_barang_keluar' => $detail_barang_keluar, 'barang_keluar' => $barang_keluar, 'activeMenu' => $activeMenu]);
     }
+
+    public function destroy(string $id)
+    {
+        $check = BarangKeluarModel::find($id);
+        if (!$check) {
+            return redirect('/barang_keluar')->with('error', 'Data barang tidak ditemukan');
+        }
+
+        try {
+            DetailBarangKeluarModel::where('barang_keluar_id', $id)->delete();
+
+            BarangKeluarModel::destroy($id);
+            return redirect('/barang_keluar')->with('success', 'Data barang berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('/barang_keluar')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        }
+    }
 }
