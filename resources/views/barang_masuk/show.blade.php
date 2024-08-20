@@ -13,20 +13,25 @@
                 </div>
             @else
                 <table class="table table-bordered table-striped table-hover tablesm">
-                    @foreach ($detail_barang_masuk as $detail)
+                    <tr>
+                        <th>No</th>
+                        <th>Barang</th>
+                        <th>Jumlah</th>
+                        <th>Keterangan</th>
+                    </tr>
+                    @foreach ($detail_barang_masuk as $index => $detail)
                         <tr>
-                            <th>Barang</th>
+                            <th>{{ $loop->iteration }}</th>
                             <td>{{ $detail->barang->nama_barang }}</td>
-                        </tr>
-                        <tr>
-                            <th>Jumlah</th>
                             <td>{{ $detail->jumlah }}</td>
+                            @if ($index === 0)
+                                <td rowspan="{{ count($detail_barang_masuk) }}"
+                                    style="text-align: center; vertical-align: middle;">
+                                    {{ $detail_barang_masuk->first()->keterangan }}</td>
+                            @endif
+
                         </tr>
                     @endforeach
-                    <tr>
-                        <th>Keterangan</th>
-                        <td>{{ $detail_barang_masuk->first()->keterangan }}</td>
-                    </tr>
                 </table>
             @endempty
             <a href="{{ url('barang_masuk') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
