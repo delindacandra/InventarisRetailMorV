@@ -2,10 +2,6 @@
 
 @section('content')
     <div>
-        <p class="mb-4 pl-5 pr-5">"Barang promosi ini akan didistribusikan melalui berbagai saluran penjualan retail
-            Pertamina, acara-acara promosi,
-            pameran, dan event khusus yang diselenggarakan oleh Pertamina MOR V"</p>
-
         <div class="card-body">
             <div class="card-tools float-right">
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang_keluar/create') }}">Tambah</a>
