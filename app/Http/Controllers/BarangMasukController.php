@@ -111,8 +111,17 @@ class BarangMasukController extends Controller
         ]);
 
         $items = json_decode($request->items, true);
-        foreach ($items as $item) {
+        foreach ($items as $index => $item) {
+            $lastKodeDetail = DetailBarangMasukModel::latest()->first();
+            if($lastKodeDetail){
+                $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 1));
+                $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
+            }else{
+                $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1);
+            }
+
             DetailBarangMasukModel::create([
+                'kode_detail_barang_masuk' => $newKodeDetail,
                 'barang_masuk_id' => $barangMasuk->barang_masuk_id,
                 'barang_id' => $item['barang_id'],
                 'keterangan' => $request->keterangan,
