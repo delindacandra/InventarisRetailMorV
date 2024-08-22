@@ -50,6 +50,7 @@
             var dataBarang = $('#table_barang').DataTable({
                 serverSide: true,
                 responsive: true,
+                stateSave: true,
                 ajax: {
                     "url": "{{ url('barang/list') }}",
                     "dataType": "json",
@@ -91,11 +92,12 @@
                         className: "",
                         orderable: false,
                         searchable: false
-                    }, {
+                    },
+                    {
                         data: "image",
                         render: function(data, type, row) {
                             return '<img src="{{ asset('storage/barang/') }}/' + row.image +
-                                '"alt="Foto Barang" style="max-height: 200px">';
+                                '"alt="Foto Barang" style="max-width: 300px; max-height: 300px">';
                         },
                         className: "",
                         orderable: false,
