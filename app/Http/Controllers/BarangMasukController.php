@@ -112,13 +112,16 @@ class BarangMasukController extends Controller
 
         $items = json_decode($request->items, true);
         foreach ($items as $index => $item) {
-            $lastKodeDetail = DetailBarangMasukModel::latest()->first();
-            if($lastKodeDetail){
-                $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 1));
-                $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
-            }else{
-                $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1);
-            }
+            // Ensure unique kode_detail_barang_masuk
+            do {
+                $lastKodeDetail = DetailBarangMasukModel::latest()->first();
+                if ($lastKodeDetail) {
+                    $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 3)); 
+                    $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + 1);
+                } else {
+                    $newKodeDetail = 'DBM001'; // Start from DBM001
+                }
+            } while (DetailBarangMasukModel::where('kode_detail_barang_masuk', $newKodeDetail)->exists());
 
             DetailBarangMasukModel::create([
                 'kode_detail_barang_masuk' => $newKodeDetail,
