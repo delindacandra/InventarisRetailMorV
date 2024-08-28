@@ -17,6 +17,7 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/edit', [DataBarangController::class, 'edit']);
     Route::put('/{id}', [DataBarangController::class, 'update']);
     Route::delete('/{id}', [DataBarangController::class, 'destroy']);
+    Route::get('/export', [DataBarangController::class, 'export']);
 });
 Route::group(['prefix' => 'barang_masuk'], function () {
     Route::get('/', [BarangMasukController::class, 'index']);
@@ -37,7 +38,8 @@ Route::group(['prefix' => 'barang_keluar'], function () {
     Route::delete('/{id}', [BarangKeluarController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'profile'], function(){
+Route::group(['prefix' => 'profile'], function () {
     Route::get('/', [ProfileController::class, 'index']);
+    Route::get('/edit', [ProfileController::class, 'edit']);
+    Route::put('/{id}', [ProfileController::class, 'update_fungsi']);
 });
-

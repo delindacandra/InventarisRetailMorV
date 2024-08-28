@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataBarangExport;
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use App\Models\StokModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class DataBarangController extends Controller
@@ -191,5 +193,9 @@ class DataBarangController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/barang')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
+    }
+
+    public function export(){
+        return Excel::download(new DataBarangExport(), 'data barang.xlsx');
     }
 }

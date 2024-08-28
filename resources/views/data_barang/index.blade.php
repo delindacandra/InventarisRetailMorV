@@ -24,6 +24,8 @@
                 </div>
             </div>
             <div class="card-tools float-right">
+                <a class="btn btn-sm btn-success mt-1" href="{{ url('barang/export') }}">Export data</a>
+
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
             </div>
             <table class="table-bordered table-striped table-hover table-sm table" id="table_barang">
