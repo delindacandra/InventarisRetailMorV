@@ -167,6 +167,10 @@
             updateHiddenItems();
         });
 
+        $('#table-barang').on('input', 'input.jumlah', function() {
+            updateHiddenItems(); // Update data saat jumlah diubah
+        });
+
         function updateHiddenItems() {
             var items = [];
             $('#table-barang tbody tr').each(function() {
