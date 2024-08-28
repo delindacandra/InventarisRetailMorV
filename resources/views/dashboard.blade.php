@@ -82,7 +82,7 @@
                 </div>
                 <!-- End Top 5 BarChart -->
 
-                <!-- Monthly Sales -->
+                <!-- Permintaan Barang -->
                 <div class="col-12 col-lg-7 col-xxl-4 d-flex">
                     <div class="card flex-fill w-100">
                         <div class="card-header">
@@ -95,40 +95,55 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Monthly Sales -->
+                <!-- End Permintaan Barang -->
             </div>
 
-            
+
             <!-- Penambahan stok perbulan -->
             {{-- <div class="col-xl-6 col-xxl-5 d-flex"> --}}
-                <div class="card">
+            {{-- <div class="card">
+                <div class="card-body">
+                    <div class="chart chart-sm"> --}}
+                        {{-- {!! $top5chart->container() !!} --}}
+                    {{-- </div>
+                    <table class="table table-hover my-0">
+                        <thead>
+                            <tr>
+                                <th>Nama Barang</th>
+                                <th>Tanggal Masuk</th>
+                                <th>Jumlah</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Gantungan Kunci Motor Gipffy</td>
+                                <td>15/08/2023</td>
+                                <td>50</td>
+                                <td>Event DBL</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div> --}}
+            {{-- </div> --}}
+            <!-- Penambahan Stok Perbulan -->
+
+            <!-- Permintaan Fungsi -->
+            <div class="col-12 col-lg-7 col-xxl-4 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">The Most Fungsi</h5>
+                    </div>
                     <div class="card-body">
                         <div class="chart chart-sm">
-                            {{-- {!! $top5chart->container() !!} --}}
+                            {!! $fungsiChart->container() !!}
                         </div>
-                        <table class="table table-hover my-0">
-                            <thead>
-                                <tr>
-                                    <th>Nama Barang</th>
-                                    <th>Tanggal Masuk</th>
-                                    <th>Jumlah</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Gantungan Kunci Motor Gipffy</td>
-                                    <td>15/08/2023</td>
-                                    <td>50</td>
-                                    <td>Event DBL</td>
-                                </tr>
-    
-                            </tbody>
-                        </table>
                     </div>
                 </div>
-                {{-- </div> --}}
-                <!-- Penambahan Stok Perbulan -->
+            </div>
+            <!-- End Permintaan Fungsi -->
 
         </div>
     </div>
@@ -142,4 +157,8 @@
     <script src="{{ $permintaanBarangChart->cdn() }}"></script>
 
     {{ $permintaanBarangChart->script() }}
+
+    <script src="{{ $fungsiChart->cdn() }}"></script>
+
+    {{ $fungsiChart->script() }}
 @endsection
