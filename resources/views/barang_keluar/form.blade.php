@@ -41,7 +41,8 @@
                                     <td><button class="btn btn-success btn-sm barang-keluar"
                                             data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}"
                                             data-kategori="{{ $barang->kategori->nama_kategori }}"
-                                            data-stok="{{ $barang->stok->stok }}">
+                                            data-stok="{{ $barang->stok->stok }}"
+                                            {{ $barang->stok->stok == 0 ? 'disabled' : '' }}>
                                             Tambah</button></td>
                                 </tr>
                             @endforeach
