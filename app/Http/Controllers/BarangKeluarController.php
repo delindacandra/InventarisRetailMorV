@@ -108,21 +108,27 @@ class BarangKeluarController extends Controller
             'items' => 'required|string',
         ]);
 
-        $barangKeluar = BarangKeluarModel::create([
+       $items = json_decode($request->items, true);
+       foreach ($items as $item) {
+        $barang = BarangModel::find($item['barang_id']);
+        if ($barang && $barang->stok && $barang->stok->stok < (int)$item['jumlah']) {
+            return redirect('/barang_keluar')->with('error', 'Stok tidak cukup untuk barang: ' . $barang->nama_barang);
+        }else{
+            $barangKeluar = BarangKeluarModel::create([
             'kode_barang_keluar' => $request->kode_barang_keluar,
             'fungsi_id' => $request->fungsi_id,
             'tanggal_keluar' => $request->tanggal_keluar,
         ]);
 
-        $items = json_decode($request->items, true);
+ 
         foreach ($items as $index => $item) {
             // Generate unique kode_detail_barang_keluar for each item
             $lastKodeDetail = DetailBarangKeluarModel::latest()->first();
             if ($lastKodeDetail) {
                 $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_keluar, 3));
-                $newKodeDetailBarang = 'KDB' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
+                $newKodeDetailBarang = 'DBK' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
             } else {
-                $newKodeDetailBarang = 'KDB' . sprintf('%03d', $index + 1);
+                $newKodeDetailBarang = 'DBK' . sprintf('%03d', $index + 1);
             }
 
             DetailBarangKeluarModel::create([
@@ -139,6 +145,8 @@ class BarangKeluarController extends Controller
                 $barang->stok->save();
             }
         }
+        }
+    }        
         return redirect('/barang_keluar')->with('success', 'Data barang keluar berhasil disimpan');
     }
 

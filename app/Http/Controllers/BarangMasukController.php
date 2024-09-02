@@ -6,7 +6,6 @@ use App\Models\BarangMasukModel;
 use App\Models\BarangModel;
 use App\Models\DetailBarangMasukModel;
 use App\Models\KategoriModel;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -105,23 +104,20 @@ class BarangMasukController extends Controller
             'items' => 'required|string'
         ]);
 
+        $items = json_decode($request->items, true);
         $barangMasuk = BarangMasukModel::create([
             'kode_barang_masuk' => $request->kode_barang_masuk,
             'tanggal_diterima' => $request->tanggal_diterima,
         ]);
 
-        $items = json_decode($request->items, true);
         foreach ($items as $index => $item) {
-            // Ensure unique kode_detail_barang_masuk
-            do {
-                $lastKodeDetail = DetailBarangMasukModel::latest()->first();
-                if ($lastKodeDetail) {
-                    $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 3)); 
-                    $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + 1);
-                } else {
-                    $newKodeDetail = 'DBM001'; // Start from DBM001
-                }
-            } while (DetailBarangMasukModel::where('kode_detail_barang_masuk', $newKodeDetail)->exists());
+            $lastKodeDetail = DetailBarangMasukModel::latest()->first();
+            if ($lastKodeDetail) {
+                $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 3));
+                $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
+            } else {
+                $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1) ;
+            }
 
             DetailBarangMasukModel::create([
                 'kode_detail_barang_masuk' => $newKodeDetail,
