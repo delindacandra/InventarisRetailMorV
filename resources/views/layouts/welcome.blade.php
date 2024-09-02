@@ -56,6 +56,7 @@
             <section class="content">
 
                 @yield('content')
+                @yield('js')
 
             </section>
             <!-- /.content -->
@@ -92,7 +93,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('template/dist/js/demo.js') }}"></script>
+    {{-- <script src="{{ asset('template/dist/js/demo.js') }}"></script> --}}
     <script>
         //untuk mengirimkan token laravel csrf pada setiap request ajax
         $.ajaxSetup({
