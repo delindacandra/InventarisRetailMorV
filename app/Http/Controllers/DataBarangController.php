@@ -76,7 +76,7 @@ class DataBarangController extends Controller
             $newKodeStok = 'ST001';
         }
 
-        $activeMenu =  'data_barang';
+        $activeMenu =  'barang_baru';
 
         return view('data_barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'newKodeBarang' => $newKodeBarang, 'newKodeStok' => $newKodeStok, 'activeMenu' => $activeMenu]);
     }
