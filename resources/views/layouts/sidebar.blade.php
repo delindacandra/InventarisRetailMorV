@@ -46,6 +46,15 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ url('barang/create') }}" class="nav-link {{ $activeMenu == 'barang_baru' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-plus"></i>
+                    <p>
+                        Barang Baru
+
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url('barang_masuk') }}"
                     class="nav-link {{ $activeMenu == 'barang_masuk' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-truck-loading"></i>
