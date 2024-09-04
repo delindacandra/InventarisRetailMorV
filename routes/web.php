@@ -4,11 +4,16 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
-use App\Models\BarangKeluarModel;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login_process', [LoginController::class, 'login_process']);
+
 Route::get('dashboard', [DashboardController::class, 'index']);
+
 Route::group(['prefix' => 'barang'], function () {
     Route::get('/', [DataBarangController::class, 'index']);
     Route::post('/list', [DataBarangController::class, 'list']);
@@ -19,6 +24,7 @@ Route::group(['prefix' => 'barang'], function () {
     Route::delete('/{id}', [DataBarangController::class, 'destroy']);
     Route::get('/export', [DataBarangController::class, 'export']);
 });
+
 Route::group(['prefix' => 'barang_masuk'], function () {
     Route::get('/', [BarangMasukController::class, 'index']);
     Route::post('/list', [BarangMasukController::class, 'list']);
@@ -28,6 +34,7 @@ Route::group(['prefix' => 'barang_masuk'], function () {
     Route::post('/', [BarangMasukController::class, 'store']);
     Route::delete('/{id}', [BarangMasukController::class, 'destroy']);
 });
+
 Route::group(['prefix' => 'barang_keluar'], function () {
     Route::get('/', [BarangKeluarController::class, 'index']);
     Route::post('/list', [BarangKeluarController::class, 'list']);
@@ -40,6 +47,6 @@ Route::group(['prefix' => 'barang_keluar'], function () {
 
 Route::group(['prefix' => 'profile'], function () {
     Route::get('/', [ProfileController::class, 'index']);
-    Route::get('/edit', [ProfileController::class, 'edit']);
+    Route::get('/{id}/edit', [ProfileController::class, 'edit']);
     Route::put('/{id}', [ProfileController::class, 'update_fungsi']);
 });

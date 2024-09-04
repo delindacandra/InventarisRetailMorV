@@ -40,23 +40,30 @@
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="{{ url('dashboard') }}" method="post">
+                <form action="{{ url('login_process') }}" method="post">
+                    @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Username">
+                        <input type="text" name="nama" class="form-control" placeholder="Username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
                     </div>
+                    @error('name')
+                        <small>{{ $message }}</small>
+                    @enderror
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
+                    @error('password')
+                        <small>{{ $message }}</small>
+                    @enderror
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
@@ -73,23 +80,6 @@
                         <!-- /.col -->
                     </div>
                 </form>
-
-                <div class="social-auth-links text-center mt-2 mb-3">
-                    {{-- <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a> --}}
-                    {{-- <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a> --}}
-                </div>
-                <!-- /.social-auth-links -->
-
-                {{-- <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
-                </p> --}}
             </div>
             <!-- /.card-body -->
         </div>
@@ -103,6 +93,12 @@
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
+
+    @if ($message = Session::get('failed'))
+        <script>
+            Swal.fire('{{ $message }}');
+        </script>
+    @endif
 </body>
 
 </html>
