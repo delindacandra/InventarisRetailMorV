@@ -5,14 +5,20 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::middleware(['ceklogin'])->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index']);
+    });
+});
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login_process', [LoginController::class, 'login_process']);
+Route::post('/logout', [LogOutController::class, 'index'])->name('logout');
 
-Route::get('dashboard', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'barang'], function () {
     Route::get('/', [DataBarangController::class, 'index']);
