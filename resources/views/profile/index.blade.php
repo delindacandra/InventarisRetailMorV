@@ -14,15 +14,15 @@
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
                             <b>No Induk</b>
-                            <a class="float-right">TAD02257965</a>
+                            <a class="float-right">{{ session('user.no_induk') }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Username</b>
+                            <a class="float-right">{{ session('user.nama') }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Fungsi</b>
                             <a class="float-right">Retail Sales</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>No Tlpn</b>
-                            <a class="float-right">08112345678</a>
                         </li>
                         <li class="list-group-item">
                             <b>Alamat</b>
@@ -30,7 +30,10 @@
                                 Surabaya</a>
                         </li>
                     </ul>
-                    <a href="{{ url('/logout') }}" class="btn btn-primary btn-block"><b>Logout</b></a>
+                    <form action="{{ url('logout') }}" method="POST" class="btn btn-primary btn-block">
+                        @csrf
+                        <button type="submit" style="background: transparent; border: none; color: white;">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -139,7 +142,7 @@
     <script>
         function loadTabContent(tab) {
             $.ajax({
-                url: '/path/to/your/api/' + tab, 
+                url: '/path/to/your/api/' + tab,
                 method: 'GET',
                 success: function(data) {
                     $('.tab-content .tab-pane#' + tab).html(data);
