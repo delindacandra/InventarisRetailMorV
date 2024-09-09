@@ -26,6 +26,7 @@ class LoginController extends Controller
 
             Auth::login($user);
 
+            session()->put('user.no_induk', $user->no_induk);
             session()->put('user.nama', $user->nama);
             return redirect('dashboard')->with('success', 'Berhasil Masuk!');
         }
