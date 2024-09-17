@@ -26,7 +26,7 @@ class DataBarangController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::with(['kategori', 'stok']);
+        $barangs = BarangModel::with(['kategori', 'stok'])->orderBy('nama_barang', 'asc');
 
         if ($request->kategori_id) {
             $barangs->where('kategori_id', $request->kategori_id);
@@ -186,8 +186,8 @@ class DataBarangController extends Controller
         if (!$check) {
             return redirect('/barang')->with('error', 'Data barang tidak ditemukan');
         }
-
         try {
+            StokModel::where('barang_id', $barang_id)->delete();
             BarangModel::destroy($barang_id);
             return redirect('/barang')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -195,7 +195,8 @@ class DataBarangController extends Controller
         }
     }
 
-    public function export(){
+    public function export()
+    {
         return Excel::download(new DataBarangExport(), 'data barang.xlsx');
     }
 }

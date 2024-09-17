@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="card-tools float-right">
-                <a class="btn btn-sm btn-success mt-1" href="{{ url('barang/export') }}">Export data</a>
+                <a class="btn btn-sm btn-success mt-1" href="{{ url('export/barang') }}">Export data</a>
 
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
             </div>
@@ -32,7 +32,6 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Kode Barang </th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
                         <th>Stok</th>
@@ -67,12 +66,7 @@
                         className: "text-center",
                         orderable: false,
                         searchable: false
-                    }, {
-                        data: "kode_barang",
-                        className: "",
-                        orderable: false,
-                        searchable: false
-                    }, {
+                    },{
                         data: "nama_barang",
                         className: "",
                         orderable: true,
