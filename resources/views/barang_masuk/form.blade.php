@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($barang as $barang)
+                            @foreach ($barang->sortBy('nama_barang') as $barang) 
                                 <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
@@ -44,7 +44,7 @@
                                             data-nama="{{ $barang->nama_barang }}"
                                             data-kategori="{{ $barang->kategori->nama_kategori }}"
                                             data-stok="{{ $barang->stok->stok }}">
-                                            Tambah</button></td>
+                                            <i class="fas fa-plus"></i></button></td>
                                 </tr>
                             @endforeach
                         </tbody>

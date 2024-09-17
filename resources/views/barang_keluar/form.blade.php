@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($barang as $barang)
+                            @foreach ($barang->sortBy('nama_barang') as $barang)
                                 <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
@@ -43,7 +43,7 @@
                                             data-kategori="{{ $barang->kategori->nama_kategori }}"
                                             data-stok="{{ $barang->stok->stok }}"
                                             {{ $barang->stok->stok == 0 ? 'disabled' : '' }}>
-                                            Tambah</button></td>
+                                            <i class="fas fa-minus"></i></button></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -58,25 +58,15 @@
                     <form method="POST" action="{{ url('barang_keluar') }}" class="form-horizontal">
                         @csrf
                         <div class="form-group row">
-                            <label class="col-3 control-label col-form-label">Kode Barang Keluar</label>
+                            {{-- <label class="col-3 control-label col-form-label">Kode Barang Keluar</label> --}}
                             <div class="col-9">
-                                <input type="text" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
+                                <input type="hidden" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
                                     value="{{ $newKodeBarang }}" readonly>
                                 @error('kode_barang_keluar')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
-                        {{-- <div class="form-group row">
-                            <label class="col-3 control-label col-form-label">Kode Detail Barang Keluar</label>
-                            <div class="col-9">
-                                <input type="hidden" class="form-control" id="kode_detail_barang_keluar"
-                                    name="kode_detail_barang_keluar" value="{{ $newKodeDetailBarang }}" readonly>
-                                @error('kode_detail_barang_keluar')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div> --}}
                         <div class="form-group row">
                             <label class="col-3 control-label col-form-label">Fungsi</label>
                             <div class="col-9">
