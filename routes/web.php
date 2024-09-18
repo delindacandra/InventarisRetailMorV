@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\BarangKeluarExport;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
@@ -28,7 +29,6 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/edit', [DataBarangController::class, 'edit']);
     Route::put('/{id}', [DataBarangController::class, 'update']);
     Route::delete('/{id}', [DataBarangController::class, 'destroy']);
-    Route::get('/export', [DataBarangController::class, 'export']);
 });
 
 Route::group(['prefix' => 'barang_masuk'], function () {
@@ -39,6 +39,12 @@ Route::group(['prefix' => 'barang_masuk'], function () {
     Route::post('/list_form', [BarangMasukController::class, 'list_form']);
     Route::post('/', [BarangMasukController::class, 'store']);
     Route::delete('/{id}', [BarangMasukController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'export'], function () {
+    Route::get('/barang', [DataBarangController::class, 'export']);
+    Route::get('/barang_masuk', [BarangMasukController::class, 'export']);
+    Route::get('/barang_keluar', [BarangKeluarController::class, 'export']);
 });
 
 Route::group(['prefix' => 'barang_keluar'], function () {
