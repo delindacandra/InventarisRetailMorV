@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BarangMasukExport;
 use App\Models\BarangMasukModel;
 use App\Models\BarangModel;
 use App\Models\DetailBarangMasukModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangMasukController extends Controller
@@ -25,21 +27,24 @@ class BarangMasukController extends Controller
 
     public function list(Request $request)
     {
-        $barangMasuks = BarangMasukModel::select('barang_masuk_id', 'kode_barang_masuk', 'tanggal_diterima');
+        $barangMasuks = DetailBarangMasukModel::select('barang_masuk_id', 'barang_id', 'jumlah', 'keterangan')->with('barang_masuk', 'barang');
 
         if ($request->has('start_date') && $request->start_date) {
-            $barangMasuks->whereDate('tanggal_diterima', '>=', $request->start_date);
+            $barangMasuks->whereHas('barang_masuk', function ($query) use ($request) {
+                $query->whereDate('tanggal_diterima', '>=', $request->start_date);
+            });
         }
 
         if ($request->has('end_date') && $request->end_date) {
-            $barangMasuks->whereDate('tanggal_diterima', '<=', $request->end_date);
+            $barangMasuks->whereHas('barang_masuk', function ($query) use ($request) {
+                $query->whereDate('tanggal_diterima', '<=', $request->end_date);
+            });
         }
 
         return DataTables::of($barangMasuks)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($barangMasuk) {
-                $btn = '<a href="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id . '/') . '" class="btn btn-warning btn-sm">Detail</a> ';
-                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang_masuk/' . $barangMasuk->barang_masuk_id) . '">'
+            ->addColumn('aksi', function ($barangMasuks) {
+                $btn = '<form class="d-inline-block" method="POST" action="' . url('/barang_masuk/' . $barangMasuks->barang_masuk_id) . '">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
                 return $btn;
@@ -76,7 +81,7 @@ class BarangMasukController extends Controller
 
     public function list_form(Request $request)
     {
-        $barangs = BarangModel::with(['kategori', 'stok']);
+        $barangs = BarangModel::with(['kategori', 'stok'])->orderBy('nama_barang', 'asc');
 
         if ($request->kategori_id) {
             $barangs->where('kategori_id', $request->kategori_id);
@@ -116,7 +121,7 @@ class BarangMasukController extends Controller
                 $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 3));
                 $newKodeDetail = 'DBM' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
             } else {
-                $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1) ;
+                $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1);
             }
 
             DetailBarangMasukModel::create([
@@ -176,5 +181,10 @@ class BarangMasukController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/barang_masuk')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new BarangMasukExport(), 'barang_masuk.xlsx');
     }
 }

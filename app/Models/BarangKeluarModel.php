@@ -18,4 +18,9 @@ class BarangKeluarModel extends Model
     {
         return $this->belongsTo(FungsiModel::class, 'fungsi_id', 'fungsi_id');
     }
+
+    public function detailBarangKeluar()
+    {
+        return $this->hasMany(DetailBarangKeluarModel::class, 'barang_keluar_id', 'barang_keluar_id');
+    }
 }
