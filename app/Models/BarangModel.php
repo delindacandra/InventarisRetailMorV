@@ -12,7 +12,7 @@ class BarangModel extends Model
 
     protected $table = 'data_barang';
     protected $primaryKey = 'barang_id';
-    protected $fillable = ['kode_barang', 'nama_barang', 'kategori_id',  'jumlah', 'harga', 'image', 'tanggal_diterima'];
+    protected $fillable = ['kode_barang', 'nama_barang', 'kategori_id',  'jumlah', 'harga', 'image', 'tanggal_diterima', 'vendor'];
 
     public function stok()
     {
