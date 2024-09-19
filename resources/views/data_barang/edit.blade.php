@@ -42,8 +42,7 @@
                         </div>
                     </div>
                     <div class="form-group row"> <label class="col-3 control-label col-form-label">Informasi Vendor</label>
-                        <div class="col-9"> <textarea type="text" class="form-control" id="vendor" name="vendor"
-                                value="{{ old('vendor', $barang->vendor) }}" required> </textarea> @error('vendor')
+                        <div class="col-9"> <textarea class="form-control" id="vendor" name="vendor" required>{{ old('vendor', $barang->vendor) }}</textarea> @error('vendor')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
