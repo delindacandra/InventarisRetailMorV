@@ -14,8 +14,9 @@
                 <form method="POST" action="{{ url('/barang/' . $barang->barang_id) }}" class="form-horizontal"
                     enctype="multipart/form-data">
                     @csrf {!! method_field('PUT') !!} <!-- tambahkan baris ini untuk proses edit yang butuh method PUT -->
-                    <div class="form-group row"> <label class="col-3 control-label col-form-label">Kode Barang</label>
-                        <div class="col-9"> <input type="text" class="form-control" id="kode_barang" name="kode_barang"
+                    <div class="form-group row"> 
+                        {{-- <label class="col-3 control-label col-form-label">Kode Barang</label> --}}
+                        <div class="col-9"> <input type="hidden" class="form-control" id="kode_barang" name="kode_barang"
                                 value="{{ old('kode_barang', $barang->kode_barang) }}" required readonly> @error('kode_barang')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -36,6 +37,13 @@
                                         {{ $item->nama_kategori }}</option>
                                 @endforeach
                             </select> @error('kategori_id')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"> <label class="col-3 control-label col-form-label">Informasi Vendor</label>
+                        <div class="col-9"> <textarea type="text" class="form-control" id="vendor" name="vendor"
+                                value="{{ old('vendor', $barang->vendor) }}" required> </textarea> @error('vendor')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>

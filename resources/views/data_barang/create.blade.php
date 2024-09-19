@@ -9,9 +9,9 @@
                 <form method="POST" action="{{ url('barang') }}" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row">
-                        <label class="col-2 pl-5 control-label col-form-label">Kode Barang</label>
+                        {{-- <label class="col-2 pl-5 control-label col-form-label">Kode Barang</label> --}}
                         <div class="col-5">
-                            <input type="text" class="form-control" id="kode_barang" name="kode_barang"
+                            <input type="hidden" class="form-control" id="kode_barang" name="kode_barang"
                                 value="{{ $newKodeBarang }}" readonly>
                             @error('kode_barang')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -35,6 +35,16 @@
                                     <option value="{{ $item->kategori_id }}">{{ $item->nama_kategori }}</option>
                                 @endforeach
                             </select> @error('kategori_id')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 pl-5 control-label col-form-label">Informasi Vendor</label>
+                        <div class="col-5">
+                            <textarea type="text" class="form-control" id="vendor" name="vendor"
+                                value="{{ old('vendor') }}" required></textarea>
+                            @error('vendor')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>

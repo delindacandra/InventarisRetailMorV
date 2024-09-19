@@ -30,10 +30,11 @@
             </div>
             <table class="table-bordered table-striped table-hover table-sm table" id="table_barang">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th>No</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
+                        <th>Informasi Vendor</th>
                         <th>Stok</th>
                         <th>Harga Satuan</th>
                         <th>Gambar</th>
@@ -66,28 +67,38 @@
                         className: "text-center",
                         orderable: false,
                         searchable: false
-                    },{
+                    }, {
                         data: "nama_barang",
                         className: "",
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        width: "300px"
                     }, {
                         data: "kategori.nama_kategori",
                         className: "",
                         orderable: true,
+                        searchable: false,
+                        width: "200px"
+                    },
+                    {
+                        data: "vendor",
+                        className: "",
+                        orderable: false,
                         searchable: false
                     },
                     {
                         data: "stok",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: "80px"
                     },
                     {
                         data: "harga",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: "150px"
                     },
                     {
                         data: "image",
@@ -97,13 +108,15 @@
                         },
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        widthh: "200px"
                     },
                     {
                         data: "aksi",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: "150px"
                     }
                 ]
             });

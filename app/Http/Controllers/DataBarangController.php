@@ -87,6 +87,7 @@ class DataBarangController extends Controller
             'kode_barang' => 'required|string',
             'nama_barang' => 'required|string',
             'kategori_id' => 'required|integer',
+            'vendor' => 'required|string',
             'image' => 'required|mimes:png,jpg,jpeg',
             'harga' => 'required|integer',
             'kode_stok' => 'required|string',
@@ -108,6 +109,7 @@ class DataBarangController extends Controller
             'kategori_id' => $request->kategori_id,
             'image' => $fileName,
             'harga' => $request->harga,
+            'vendor' => $request->vendor,
         ]);
 
         StokModel::create([
@@ -130,7 +132,7 @@ class DataBarangController extends Controller
             'list' => ['Data Barang', 'Edit']
         ];
         $page = (object)[
-            'title' => ' Form Edit'
+            'title' => ' Form Edit Data Barang'
         ];
 
         $stok = StokModel::find($barang_id);
@@ -148,6 +150,7 @@ class DataBarangController extends Controller
             'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
             'kategori_id' => 'required|integer',
             'stok' => 'required|integer',
+            'vendor' => 'required|string',
         ]);
 
         $barang = BarangModel::find($barang_id);
@@ -169,6 +172,7 @@ class DataBarangController extends Controller
             'nama_barang' => $request->nama_barang,
             'harga' => $request->harga,
             'kategori_id' => $request->kategori_id,
+            'vendor' => $request->vendor,
         ]);
 
         StokModel::updateOrCreate(
