@@ -9,15 +9,7 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <label class="col-1 control-label col-form-label">Filter: </label>
-                                <div class="col-3">
-                                    <select class="form-control" name="kategori_id" id="kategori_id" required>
-                                        <option value="">-- Semua --</option>
-                                        @foreach ($kategori as $i)
-                                            <option value="{{ $i->kategori_id }}">{{ $i->nama_kategori }}</option>
-                                        @endforeach
-                                    </select>
-                                    <small class="form-text text-muted">Kategori Barang</small>
-                                </div>
+                                {{-- //searchbar --}}
                             </div>
                         </div>
                     </div>
@@ -27,23 +19,21 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
-                                <th>Kategori</th>
                                 <th>Stok</th>
+                                <th>Vendor</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($barang->sortBy('nama_barang') as $barang) 
+                            @foreach ($barang->sortBy('nama_barang') as $barang)
                                 <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
-                                    <td>{{ $barang->kategori->nama_kategori }}</td>
                                     <td>{{ $barang->stok->stok }}</td>
+                                    <td>{{ $barang->vendor }}</td>
                                     <td><button class="btn btn-success btn-sm tambah-barang"
-                                            data-id="{{ $barang->barang_id }}"
-                                            data-nama="{{ $barang->nama_barang }}"
-                                            data-kategori="{{ $barang->kategori->nama_kategori }}"
-                                            data-stok="{{ $barang->stok->stok }}">
+                                            data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}"
+                                            data-stok="{{ $barang->stok->stok }}" data-vendor="{{ $barang->vendor }}">
                                             <i class="fas fa-plus"></i></button></td>
                                 </tr>
                             @endforeach
@@ -60,15 +50,16 @@
                     <form method="POST" action="{{ url('barang_masuk') }}" class="form-horizontal">
                         @csrf
                         <div class="form-group row">
-                            <label class="col-3 control-label col-form-label">Kode Barang Masuk</label>
+                            {{-- <label class="col-3 control-label col-form-label">Kode Barang Masuk</label> --}}
                             <div class="col-9">
-                                <input type="text" class="form-control" id="kode_barang_masuk" name="kode_barang_masuk"
+                                <input type="hidden" class="form-control" id="kode_barang_masuk" name="kode_barang_masuk"
                                     value="{{ $newKodeBarang }}" readonly>
                                 @error('kode_barang_masuk')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
+                        
                         <div class="form-group row">
                             <label class="col-3 control-label col-form-label">Keterangan</label>
                             <div class="col-9">
@@ -95,7 +86,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Barang</th>
-                                    <th>Kategori</th>
+                                    <th>Stok Saat Ini</th>
+                                    <th>Vendor</th>
                                     <th>Jumlah</th>
                                 </tr>
                             </thead>
@@ -120,28 +112,11 @@
     </div>
 @endsection
 
-@push('css')
-@endpush
-
-
 @push('js')
     <script>
-        $('#kategori_id').change(function() {
-            var selectedKategori = $(this).val();
-            $('#table_barang tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                if (selectedKategori === "" || rowKategori == selectedKategori) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-
         $('.tambah-barang').click(function() {
             var id = $(this).data('id');
             var nama = $(this).data('nama');
-            var kategori = $(this).data('kategori');
             var stok = $(this).data('stok');
             var jumlah = $(this).data('jumlah');
 
@@ -157,9 +132,8 @@
                 $('#table-barang tbody').append(
                     '<tr data-id="' + id + '"><td>' + ($('#table-barang tbody tr').length + 1) +
                     '</td><td class="nama">' + nama +
-                    '</td><td class="kategori">' + kategori +
                     '</td><td class="stok">' + stok +
-                    '</td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
+                    '</td><td><input type="text" class="form-control vendor" name="vendor" value="' + $(this).data('vendor') + '"> </td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
                 );
 
             }
@@ -170,15 +144,20 @@
         $('#table-barang').on('input', 'input.jumlah', function() {
             updateHiddenItems(); // Update data saat jumlah diubah
         });
+        $('#table-barang').on('input', 'input.vendor', function() {
+            updateHiddenItems(); // Update data saat vendor diubah
+        });
 
         function updateHiddenItems() {
             var items = [];
             $('#table-barang tbody tr').each(function() {
                 var id = $(this).data('id');
                 var jumlah = $(this).find('input.jumlah').val();
+                var vendor = $(this).find('input.vendor').val();
                 items.push({
                     barang_id: id,
-                    jumlah: jumlah
+                    jumlah: jumlah,
+                    vendor: vendor,
                 });
             });
             $('#items').val(JSON.stringify(items));

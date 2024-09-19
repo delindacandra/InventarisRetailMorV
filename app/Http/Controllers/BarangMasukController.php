@@ -116,6 +116,7 @@ class BarangMasukController extends Controller
         ]);
 
         foreach ($items as $index => $item) {
+            // Generate new kode_detail_barang_masuk
             $lastKodeDetail = DetailBarangMasukModel::latest()->first();
             if ($lastKodeDetail) {
                 $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_masuk, 3));
@@ -124,6 +125,7 @@ class BarangMasukController extends Controller
                 $newKodeDetail = 'DBM' . sprintf('%03d', $index + 1);
             }
 
+            // Create new detail_barang_masuk record
             DetailBarangMasukModel::create([
                 'kode_detail_barang_masuk' => $newKodeDetail,
                 'barang_masuk_id' => $barangMasuk->barang_masuk_id,
@@ -132,8 +134,14 @@ class BarangMasukController extends Controller
                 'jumlah' => $item['jumlah'],
             ]);
 
-            // Update stok barang
+            // Update informasi vendor per item
             $barang = BarangModel::find($item['barang_id']);
+            if ($barang && $barang->vendor) {
+                $barang->vendor = $item['vendor'];
+                $barang->save();
+            }
+
+            // Update stok barang
             if ($barang && $barang->stok) {
                 $barang->stok->stok = (int)$barang->stok->stok + (int)$item['jumlah'];
                 $barang->stok->save();
