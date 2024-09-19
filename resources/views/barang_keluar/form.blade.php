@@ -8,16 +8,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label class="col-1 control-label col-form-label">Filter: </label>
-                                <div class="col-3">
-                                    <select class="form-control" name="kategori_id" id="kategori_id" required>
-                                        <option value="">-- Semua --</option>
-                                        @foreach ($kategori as $i)
-                                            <option value="{{ $i->kategori_id }}">{{ $i->nama_kategori }}</option>
-                                        @endforeach
-                                    </select>
-                                    <small class="form-text text-muted">Kategori</small>
-                                </div>
+                               {{-- searchbar --}}
+                               <label class="col-2 control-label col-form-label">Search: </label>
                             </div>
                         </div>
                     </div>
@@ -26,7 +18,6 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
-                                <th>Kategori</th>
                                 <th>Stok</th>
                                 <th>Aksi</th>
                             </tr>
@@ -36,11 +27,9 @@
                                 <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
-                                    <td>{{ $barang->kategori->nama_kategori }}</td>
                                     <td>{{ $barang->stok->stok }}</td>
                                     <td><button class="btn btn-success btn-sm barang-keluar"
                                             data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}"
-                                            data-kategori="{{ $barang->kategori->nama_kategori }}"
                                             data-stok="{{ $barang->stok->stok }}"
                                             {{ $barang->stok->stok == 0 ? 'disabled' : '' }}>
                                             <i class="fas fa-minus"></i></button></td>
@@ -106,7 +95,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Barang</th>
-                                    <th>Kategori Barang</th>
+                                    <th>Stok Saat Ini</th>
                                     <th>Jumlah</th>
                                 </tr>
                             </thead>
@@ -130,22 +119,10 @@
 @endpush
 @push('js')
     <script>
-        $('#kategori_id').change(function() {
-            var selectedKategori = $(this).val();
-            $('#table_barang tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                if (selectedKategori === "" || rowKategori == selectedKategori) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
 
         $('.barang-keluar').click(function() {
             var id = $(this).data('id');
             var nama = $(this).data('nama');
-            var kategori = $(this).data('kategori');
             var stok = $(this).data('stok');
             var jumlah = $(this).data('jumlah');
 
@@ -161,7 +138,6 @@
                 $('#table-barang tbody').append(
                     '<tr data-id="' + id + '"><td>' + ($('#table-barang tbody tr').length + 1) +
                     '</td><td class="nama">' + nama +
-                    '</td><td class="kategori">' + kategori +
                     '</td><td class="stok">' + stok +
                     '</td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
                 );
