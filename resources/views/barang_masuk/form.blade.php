@@ -8,8 +8,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label class="col-1 control-label col-form-label">Filter: </label>
-                                {{-- //searchbar --}}
+                                {{-- Searchbar --}}
+                                <label class="col-2 control-label col-form-label">Cari Barang:</label>
+                                <div class="col-10">
+                                    <input type="text" class="form-control" id="searchBar"
+                                        placeholder="Masukkan nama barang">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,7 +63,7 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label class="col-3 control-label col-form-label">Keterangan</label>
                             <div class="col-9">
@@ -114,11 +118,19 @@
 
 @push('js')
     <script>
+        $('#searchBar').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $("#table_barang tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
         $('.tambah-barang').click(function() {
             var id = $(this).data('id');
             var nama = $(this).data('nama');
             var stok = $(this).data('stok');
             var jumlah = $(this).data('jumlah');
+            var vendor = $(this).data('vendor');
 
             // Cek barang sudah ada di tabel barang atau belum
             var existingRow = $('#table-barang tbody tr[data-id="' + id + '"]');
@@ -133,11 +145,12 @@
                     '<tr data-id="' + id + '"><td>' + ($('#table-barang tbody tr').length + 1) +
                     '</td><td class="nama">' + nama +
                     '</td><td class="stok">' + stok +
-                    '</td><td><input type="text" class="form-control vendor" name="vendor" value="' + $(this).data('vendor') + '"> </td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
+                    '</td><td><input type="text" class="form-control vendor" name="vendor" value="' + $(this)
+                    .data('vendor') +
+                    '"> </td><td><input type="number" class="form-control jumlah" value="1" min="1"></td></tr>'
                 );
 
             }
-            // Update input tersembunyi dengan data barang
             updateHiddenItems();
         });
 

@@ -25,6 +25,7 @@
                         <th>Tanggal</th>
                         <th>Nama Barang</th>
                         <th>Jumlah</th>
+                        <th>Vendor</th>
                         <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
@@ -81,14 +82,20 @@
                     {
                         data: "jumlah",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "barang.vendor",
+                        className: "",
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: "keterangan",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "aksi",
@@ -110,10 +117,9 @@
                         var barangMasukId = api.row(i).data().barang_masuk_id;
 
                         if (barangMasukId === lastBarangMasukId) {
-                            // Merge tanggal, keterangan, and aksi sel dan sembunyikan duplikasi
                             $(rows).eq(i).find('td:eq(1)').css('display', 'none'); // Tanggal
-                            $(rows).eq(i).find('td:eq(4)').css('display', 'none'); // Keterangan
-                            $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Aksi
+                            $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Keterangan
+                            $(rows).eq(i).find('td:eq(6)').css('display', 'none'); // Aksi
                         } else {
                             var rowspanCount = api.rows(function(idx, data, node) {
                                 return data.barang_masuk_id === barangMasukId;
@@ -121,9 +127,9 @@
 
                             $(rows).eq(i).find('td:eq(1)').attr('rowspan',
                             rowspanCount); // Tanggal
-                            $(rows).eq(i).find('td:eq(4)').attr('rowspan',
-                            rowspanCount); // Keterangan
                             $(rows).eq(i).find('td:eq(5)').attr('rowspan',
+                            rowspanCount); // Keterangan
+                            $(rows).eq(i).find('td:eq(6)').attr('rowspan',
                             rowspanCount); // Aksi
                         }
                         lastBarangMasukId = barangMasukId;

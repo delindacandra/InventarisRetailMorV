@@ -8,8 +8,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group row">
-                               {{-- searchbar --}}
-                               <label class="col-2 control-label col-form-label">Search: </label>
+                                {{-- searchbar --}}
+                                <label class="col-2 control-label col-form-label">Cari Barang:</label>
+                                <div class="col-10">
+                                    <input type="text" class="form-control" id="searchBar"
+                                        placeholder="Masukkan nama barang">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -47,9 +51,9 @@
                     <form method="POST" action="{{ url('barang_keluar') }}" class="form-horizontal">
                         @csrf
                         <div class="form-group row">
-                            {{-- <label class="col-3 control-label col-form-label">Kode Barang Keluar</label> --}}
+                            <label class="col-3 control-label col-form-label">Kode Barang Keluar</label>
                             <div class="col-9">
-                                <input type="hidden" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
+                                <input type="text" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
                                     value="{{ $newKodeBarang }}" readonly>
                                 @error('kode_barang_keluar')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -119,6 +123,12 @@
 @endpush
 @push('js')
     <script>
+        $('#searchBar').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $("#table_barang tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
 
         $('.barang-keluar').click(function() {
             var id = $(this).data('id');

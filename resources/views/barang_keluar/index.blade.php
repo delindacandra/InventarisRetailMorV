@@ -7,13 +7,9 @@
                 <a class="btn btn-sm btn-success mt-1" href="{{ url('export/barang_keluar') }}">Export data</a>
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang_keluar/create') }}">Tambah</a>
             </div>
-            <!-- Date range filter -->
+            <!-- Searchable -->
             <div class="form-inline mb-3">
-                <label for="start_date" class="mr-2">Start Date:</label>
-                <input type="date" id="start_date" class="form-control mr-2">
-                <label for="end_date" class="mr-2">End Date:</label>
-                <input type="date" id="end_date" class="form-control">
-                <button id="filter_date" class="btn btn-primary ml-2">Filter</button>
+                {{-- searchable --}}
             </div>
             <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_keluar">
                 <thead>
@@ -33,6 +29,13 @@
 @endsection
 
 @push('css')
+    <style>
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
 @endpush
 @push('js')
     <script>
@@ -66,8 +69,8 @@
                     {
                         data: "barang_keluar.fungsi.nama_fungsi",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "barang.nama_barang",
@@ -78,14 +81,14 @@
                     {
                         data: "jumlah",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "keterangan",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "aksi",
@@ -109,8 +112,8 @@
                         if (barangKeluarId === lastBarangKeluarId) {
                             // Merge tanggal, keterangan, and aksi sel dan sembunyikan duplikasi
                             $(rows).eq(i).find('td:eq(1)').css('display', 'none'); // Tanggal
-                            $(rows).eq(i).find('td:eq(4)').css('display', 'none'); // Keterangan
-                            $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Aksi
+                            $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Keterangan
+                            $(rows).eq(i).find('td:eq(6)').css('display', 'none'); // Aksi
                         } else {
                             var rowspanCount = api.rows(function(idx, data, node) {
                                 return data.barang_keluar_id === barangKeluarId;
@@ -118,9 +121,9 @@
 
                             $(rows).eq(i).find('td:eq(1)').attr('rowspan',
                                 rowspanCount); // Tanggal
-                            $(rows).eq(i).find('td:eq(4)').attr('rowspan',
-                                rowspanCount); // Keterangan
                             $(rows).eq(i).find('td:eq(5)').attr('rowspan',
+                                rowspanCount); // Keterangan
+                            $(rows).eq(i).find('td:eq(6)').attr('rowspan',
                                 rowspanCount); // Aksi
                         }
                         lastBarangKeluarId = barangKeluarId;
