@@ -1,13 +1,10 @@
 <?php
 
-use App\Exports\BarangKeluarExport;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBarangController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 

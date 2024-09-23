@@ -43,7 +43,7 @@
                 <form action="{{ url('login_process') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" name="nama" class="form-control" placeholder="Username">
+                        <input type="email" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>

@@ -16,11 +16,12 @@ class UserSeeder extends Seeder
     {
         $data = [
             [
-                'no_induk' => 987123,
-                'nama' => 'Admin Retail',
-                'password' => Hash::make('retailmor5'),
+                'id' => 202401,
+                'name' => 'Admin',
+                'email' => 'ccmsjatimbalinus@gmail.com',
+                'password' => Hash::make('ccmsmor5'),
             ],
         ];
-        DB::table('user')->insert($data);
+        DB::table('users')->insert($data);
     }
 }

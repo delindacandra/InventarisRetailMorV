@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,18 +16,17 @@ class AuthController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'nama' => 'required|nama',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
-        $credentials = $request->only('nama', 'password');
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('web')->attempt($credentials)) {
-            $user = Auth::guard('web')->user();
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
-            Auth::login($user);
+            session()->put('user.email', $user->email);
+            session()->put('user.name', $user->name);
 
-            session()->put('user.no_induk', $user->no_induk);
-            session()->put('user.nama', $user->nama);
             return redirect('dashboard')->with('success', 'Berhasil Masuk!');
         }
         return redirect('login')->with('failed', 'Username dan Password Salah');
