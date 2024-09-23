@@ -16,85 +16,61 @@ class KategoriSeeder extends Seeder
         $data = [
             [
                 'kategori_id' => 1,
-                'kode_kategori' => 'BRG01',
-                'nama_kategori' => 'ATK',
+                'kode_kategori' => 'KTG01',
+                'nama_kategori' => 'Peralatan Promosi',
             ],
             [
                 'kategori_id' => 2,
-                'kode_kategori' => 'BRG02',
+                'kode_kategori' => 'KTG02',
                 'nama_kategori' => 'Elektronik',
 
             ],
             [
                 'kategori_id' => 3,
-                'kode_kategori' => 'BRG03',
-                'nama_kategori' => 'Gantungan kunci',
+                'kode_kategori' => 'KTG03',
+                'nama_kategori' => 'Peralatan Dapur',
 
             ],
             [
                 'kategori_id' => 4,
-                'kode_kategori' => 'BRG04',
-                'nama_kategori' => 'Goodie bag',
+                'kode_kategori' => 'KTG04',
+                'nama_kategori' => 'Peralatan Makan',
 
             ],
             [
                 'kategori_id' => 5,
-                'kode_kategori' => 'BRG05',
-                'nama_kategori' => 'Goodie bag',
+                'kode_kategori' => 'KTG05',
+                'nama_kategori' => 'Perlengkapan Rumah',
 
             ],
             [
                 'kategori_id' => 6,
-                'kode_kategori' => 'BRG06',
-                'nama_kategori' => 'Kaos',
+                'kode_kategori' => 'KTG06',
+                'nama_kategori' => 'Pakaian',
 
             ],
             [
                 'kategori_id' => 7,
-                'kode_kategori' => 'BRG07',
-                'nama_kategori' => 'Jersey',
+                'kode_kategori' => 'KTG07',
+                'nama_kategori' => 'Aksesoris Fashion',
 
             ],
             [
                 'kategori_id' => 8,
-                'kode_kategori' => 'BRG08',
-                'nama_kategori' => 'Peralaratan dapur',
+                'kode_kategori' => 'KTG08',
+                'nama_kategori' => 'Souvernir',
 
             ],
             [
                 'kategori_id' => 9,
-                'kode_kategori' => 'BRG09',
-                'nama_kategori' => 'Plakat',
+                'kode_kategori' => 'KTG09',
+                'nama_kategori' => 'Otomotif',
 
             ],
             [
                 'kategori_id' => 10,
-                'kode_kategori' => 'BRG10',
-                'nama_kategori' => 'Stiker',
-
-            ],
-            [
-                'kategori_id' => 11,
-                'kode_kategori' => 'BRG11',
-                'nama_kategori' => 'Tempat tisu',
-
-            ],
-            [
-                'kategori_id' => 12,
-                'kode_kategori' => 'BRG12',
-                'nama_kategori' => 'Tumbler',
-
-            ],
-            [
-                'kategori_id' => 13,
-                'kode_kategori' => 'BRG13',
-                'nama_kategori' => 'Umbul-umbul',
-
-            ],
-            [
-                'kategori_id' => 14,
-                'kode_kategori' => 'BRG14',
-                'nama_kategori' => 'Tas Lipat',
+                'kode_kategori' => 'KTG10',
+                'nama_kategori' => 'Alat Tulis Kantor',
 
             ],
         ];

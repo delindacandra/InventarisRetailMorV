@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('kode_stok')->unique();
             $table->integer('stok');
             $table->unsignedBigInteger('barang_id')->index();
-            $table->date('tanggal_stok');
             $table->timestamps();
             $table->foreign('barang_id')->references('barang_id')->on('data_barang');
         });
