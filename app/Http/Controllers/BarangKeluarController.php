@@ -30,7 +30,7 @@ class BarangKeluarController extends Controller
     public function list(Request $request)
     {
         $barangKeluars = DetailBarangKeluarModel::select('barang_keluar_id', 'barang_id', 'jumlah', 'keterangan')
-        ->with('barang','barang_keluar', 'barang_keluar.fungsi');
+            ->with('barang', 'barang_keluar', 'barang_keluar.fungsi');
 
         if ($request->has('start_date') && $request->start_date) {
             $barangKeluars->whereHas('barang_keluar', function ($query) use ($request) {
@@ -115,42 +115,32 @@ class BarangKeluarController extends Controller
         ]);
 
         $items = json_decode($request->items, true);
+        $barangKeluar = BarangKeluarModel::create([
+            'kode_barang_keluar' => $request->kode_barang_keluar,
+            'fungsi_id' => $request->fungsi_id,
+            'tanggal_keluar' => $request->tanggal_keluar,
+        ]);
+
+        $lastKodeDetail = DetailBarangKeluarModel::orderBy('kode_detail_barang_keluar', 'desc')->first();
+        $lastKodeDetailNumber = $lastKodeDetail ? intval(substr($lastKodeDetail->kode_detail_barang_keluar, 3)) : 0;
+
         foreach ($items as $item) {
+            $lastKodeDetailNumber++;
+            $newKodeDetailBarang = 'DBK' . sprintf('%03d', $lastKodeDetailNumber);
+
+
+            DetailBarangKeluarModel::create([
+                'kode_detail_barang_keluar' => $newKodeDetailBarang,
+                'barang_keluar_id' => $barangKeluar->barang_keluar_id,
+                'barang_id' => $item['barang_id'],
+                'keterangan' => $request->keterangan,
+                'jumlah' => $item['jumlah'],
+            ]);
+
             $barang = BarangModel::find($item['barang_id']);
-            if ($barang && $barang->stok && $barang->stok->stok < (int)$item['jumlah']) {
-                return redirect('/barang_keluar')->with('error', 'Stok tidak cukup untuk barang: ' . $barang->nama_barang);
-            } else {
-                $barangKeluar = BarangKeluarModel::create([
-                    'kode_barang_keluar' => $request->kode_barang_keluar,
-                    'fungsi_id' => $request->fungsi_id,
-                    'tanggal_keluar' => $request->tanggal_keluar,
-                ]);
-
-
-                foreach ($items as $index => $item) {
-                    // Generate unique kode_detail_barang_keluar for each item
-                    $lastKodeDetail = DetailBarangKeluarModel::latest()->first();
-                    if ($lastKodeDetail) {
-                        $lastKodeDetailNumber = intval(substr($lastKodeDetail->kode_detail_barang_keluar, 3));
-                        $newKodeDetailBarang = 'DBK' . sprintf('%03d', $lastKodeDetailNumber + $index + 1);
-                    } else {
-                        $newKodeDetailBarang = 'DBK' . sprintf('%03d', $index + 1);
-                    }
-
-                    DetailBarangKeluarModel::create([
-                        'kode_detail_barang_keluar' => $newKodeDetailBarang,
-                        'barang_keluar_id' => $barangKeluar->barang_keluar_id,
-                        'barang_id' => $item['barang_id'],
-                        'keterangan' => $request->keterangan,
-                        'jumlah' => $item['jumlah'],
-                    ]);
-
-                    $barang = BarangModel::find($item['barang_id']);
-                    if ($barang && $barang->stok) {
-                        $barang->stok->stok = (int)$barang->stok->stok - (int)$item['jumlah'];
-                        $barang->stok->save();
-                    }
-                }
+            if ($barang && $barang->stok) {
+                $barang->stok->stok = (int)$barang->stok->stok - (int)$item['jumlah'];
+                $barang->stok->save();
             }
         }
         return redirect('/barang_keluar')->with('success', 'Data barang keluar berhasil disimpan');
