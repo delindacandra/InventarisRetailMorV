@@ -1,6 +1,7 @@
 <?php
 
 use App\Exports\BarangKeluarExport;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
@@ -16,9 +17,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/login_process', [LoginController::class, 'login_process']);
-Route::post('/logout', [LogOutController::class, 'index'])->name('logout');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login_process', [AuthController::class, 'login_process']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::group(['prefix' => 'barang'], function () {
