@@ -12,7 +12,7 @@ class StokModel extends Model
 
     protected $table = 'stok_barang';
     protected $primaryKey = 'stok_id';
-    protected $fillable = ['kode_stok', 'barang_id', 'stok', 'tanggal_stok'];
+    protected $fillable = ['kode_stok', 'barang_id', 'stok'];
 
     public function barang(): BelongsTo
     {

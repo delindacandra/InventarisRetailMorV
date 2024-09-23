@@ -20,7 +20,6 @@ class StokSeeder extends Seeder
               'kode_stok' => 'ST001',
               'stok' => 50,
               'barang_id' => 1,
-              'tanggal_stok' => Carbon::now(), 
             ],
         ];
         DB::table('stok_barang')->insert($data);
