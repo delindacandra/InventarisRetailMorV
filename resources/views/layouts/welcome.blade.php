@@ -38,8 +38,8 @@
             <!-- Brand Logo -->
             <a class="brand-link">
                 <img src="{{ asset('images\logo_pertamina.png') }}" alt="Logo" class="brand-image"
-                    style="opacity: .8">
-                <span class="brand-text font-weight-light">Inventory Retail Sales</span>
+                    style="opacity: .9">
+                <span class="brand-text font-weight-light">Inventory Retail</span>
             </a>
 
             <!-- Sidebar -->
