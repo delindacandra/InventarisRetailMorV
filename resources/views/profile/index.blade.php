@@ -13,12 +13,12 @@
                     <p class="text-muted text-center">Admin Gudang Retail Sales</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>No Induk</b>
-                            <a class="float-right">{{ session('user.no_induk') }}</a>
+                            <b>Email</b>
+                            <a class="float-right">{{ session('user.email') }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Username</b>
-                            <a class="float-right">{{ session('user.nama') }}</a>
+                            <a class="float-right">{{ session('user.name') }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Fungsi</b>
@@ -59,7 +59,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Kategori Barang Promosi</h3>
-                                    <a href="#" class="btn btn-primary float-right">Tambah</a>
+                                    {{-- <a href="#" class="btn btn-primary float-right">Tambah</a> --}}
                                 </div>
                                 <div class="card-body">
                                     <div style="max-height: 300px; overflow-y:auto;">
@@ -68,7 +68,6 @@
                                                 <tr>
                                                     <th style="width: 10px">No</th>
                                                     <th>Nama Kategori</th>
-                                                    <th>Kode Kategori</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -77,10 +76,7 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $kategori->nama_kategori }}</td>
-                                                        <td>{{ $kategori->kode_kategori }}</td>
                                                         <td>
-                                                            <a href="{{ url('profile/edit') }}"
-                                                                class="btn btn-warning btn-sm">Edit</a>
                                                             <form action="#" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -113,7 +109,6 @@
                                                 <tr>
                                                     <th style="width: 10px">No</th>
                                                     <th>Nama Fungsi</th>
-                                                    <th>Kode Fungsi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -121,7 +116,6 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $fungsi->nama_fungsi }}</td>
-                                                        <td>{{ $fungsi->kode_fungsi }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -137,17 +131,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        function loadTabContent(tab) {
-            $.ajax({
-                url: '/path/to/your/api/' + tab,
-                method: 'GET',
-                success: function(data) {
-                    $('.tab-content .tab-pane#' + tab).html(data);
-                }
-            });
-        }
-    </script>
-@endpush
