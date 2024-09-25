@@ -19,13 +19,12 @@ class PermintaanBarangChart
     {
         $bulan = date('m');
         for($i=1; $i<=$bulan; $i++){
-            $totalBarangKeluar = DB::table('barang_keluar')->whereMonth('tanggal_keluar',$i)->sum('barang_keluar_id');
+            $totalBarangKeluar = DB::table('barang_keluar')->whereMonth('tanggal_keluar',$i)->count('barang_keluar_id');
             $dataBulan[]= Carbon::create()->month($i)->format('F');
             $dataTotal[]=$totalBarangKeluar;
         }
         return $this->chart->lineChart()
             ->setTitle('Total permintaan barang perbulan ')
-            // ->setSubtitle('Physical sales vs Digital sales.')
             ->addData('Total permintaan', $dataTotal)
             ->setHeight(275)
             ->setColors(['#28a745'])
