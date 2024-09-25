@@ -7,6 +7,12 @@
             pameran, dan event khusus yang diselenggarakan oleh Pertamina MOR V"</p>
 
         <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-error">{{ session('error') }}</div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
@@ -98,6 +104,12 @@
                         className: "",
                         orderable: false,
                         searchable: false,
+                        render: function(data, type, row) {
+                            return new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR'
+                            }).format(data);
+                        },
                         width: "150px"
                     },
                     {

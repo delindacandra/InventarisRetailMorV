@@ -3,6 +3,12 @@
 @section('content')
     <div>
         <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-error">{{ session('error') }}</div>
+            @endif
             <div class="card-tools float-right">
                 <a class="btn btn-sm btn-success mt-1"
                     href="{{ url('export/barang_masuk?start_date=' . request('start_date') . '&end_date=' . request('end_date')) }}">Export
@@ -126,11 +132,11 @@
                             }).count();
 
                             $(rows).eq(i).find('td:eq(1)').attr('rowspan',
-                            rowspanCount); // Tanggal
+                                rowspanCount); // Tanggal
                             $(rows).eq(i).find('td:eq(5)').attr('rowspan',
-                            rowspanCount); // Keterangan
+                                rowspanCount); // Keterangan
                             $(rows).eq(i).find('td:eq(6)').attr('rowspan',
-                            rowspanCount); // Aksi
+                                rowspanCount); // Aksi
                         }
                         lastBarangMasukId = barangMasukId;
                     });

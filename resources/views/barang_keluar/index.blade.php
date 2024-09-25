@@ -3,6 +3,12 @@
 @section('content')
     <div>
         <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-error">{{ session('error') }}</div>
+            @endif
             <div class="card-tools float-right">
                 <a class="btn btn-sm btn-success mt-1" href="{{ url('export/barang_keluar') }}">Export data</a>
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang_keluar/create') }}">Tambah</a>
