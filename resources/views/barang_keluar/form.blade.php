@@ -51,9 +51,9 @@
                     <form method="POST" action="{{ url('barang_keluar') }}" class="form-horizontal">
                         @csrf
                         <div class="form-group row">
-                            <label class="col-3 control-label col-form-label">Kode Barang Keluar</label>
+                            {{-- <label class="col-3 control-label col-form-label">Kode Barang Keluar</label> --}}
                             <div class="col-9">
-                                <input type="text" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
+                                <input type="hidden" class="form-control" id="kode_barang_keluar" name="kode_barang_keluar"
                                     value="{{ $newKodeBarang }}" readonly>
                                 @error('kode_barang_keluar')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -105,6 +105,9 @@
                             </thead>
                             <tbody></tbody>
                         </table>
+                        @if (session('error'))
+                            <div class="alert alert-error">{{ session('error') }}</div>
+                        @endif
                         <input type="hidden" name="items" id="items">
                         <div class="form-group row">
                             <div class="col-6">

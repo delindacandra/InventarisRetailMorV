@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exports\BarangKeluarExport;
 use App\Models\BarangKeluarModel;
-use App\Models\BarangMasukModel;
 use App\Models\BarangModel;
 use App\Models\DetailBarangKeluarModel;
 use App\Models\FungsiModel;
@@ -23,8 +22,7 @@ class BarangKeluarController extends Controller
         ];
         $activeMenu = 'barang_keluar';
         $fungsi = FungsiModel::all();
-        $detail = DetailBarangKeluarModel::all();
-        return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'fungsi' => $fungsi, 'detail' => $detail]);
+        return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'fungsi' => $fungsi]);
     }
 
     public function list(Request $request)
@@ -115,6 +113,14 @@ class BarangKeluarController extends Controller
         ]);
 
         $items = json_decode($request->items, true);
+
+        foreach($items as $item){
+            $barang =BarangModel::find($item['barang_id']);
+            if($barang && $barang->stok && $barang->stok->stok <$item['jumlah']){
+                return redirect()->back()->with('error', 'Jumlah barang melebihi stok yang tersedia');
+            }
+        }
+
         $barangKeluar = BarangKeluarModel::create([
             'kode_barang_keluar' => $request->kode_barang_keluar,
             'fungsi_id' => $request->fungsi_id,
@@ -150,16 +156,16 @@ class BarangKeluarController extends Controller
     {
         $detail_barang_keluar = DetailBarangKeluarModel::where('barang_keluar_id', $id)->get();
         if (!$detail_barang_keluar) {
-            return redirect('/')->with('error', 'Detail barang masuk tidak ditemukan');
+            return redirect('/')->with('error', 'Detail barang keluar tidak ditemukan');
         }
 
         $breadcrumb = (object) [
-            'title' => 'Detail Barang Masuk',
-            'list' => ['Home', 'Barang Masuk', 'Detail']
+            'title' => 'Detail Barang Keluar',
+            'list' => ['Home', 'Barang Keluar', 'Detail']
         ];
 
         $page = (object) [
-            'title' => 'Detail Transaksi Penjualan'
+            'title' => 'Detail Barang Keluar'
         ];
 
 
@@ -173,16 +179,16 @@ class BarangKeluarController extends Controller
     {
         $check = BarangKeluarModel::find($id);
         if (!$check) {
-            return redirect('/barang_keluar')->with('error', 'Data barang tidak ditemukan');
+            return redirect('/barang_keluar')->with('error', 'Data barang keluar tidak ditemukan');
         }
 
         try {
             DetailBarangKeluarModel::where('barang_keluar_id', $id)->delete();
 
             BarangKeluarModel::destroy($id);
-            return redirect('/barang_keluar')->with('success', 'Data barang berhasil dihapus');
+            return redirect('/barang_keluar')->with('success', 'Data barang keluar berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('/barang_keluar')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/barang_keluar')->with('error', 'Data barang keluar gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 
