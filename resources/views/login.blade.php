@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    @error('name')
+                    @error('email')
                         <small>{{ $message }}</small>
                     @enderror
                     <div class="input-group mb-3">
@@ -93,6 +93,8 @@
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
+    <!-- Pop up Message Error-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     @if ($message = Session::get('failed'))
         <script>
