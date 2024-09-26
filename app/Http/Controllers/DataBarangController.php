@@ -85,7 +85,7 @@ class DataBarangController extends Controller
     {
         $request->validate([
             'kode_barang' => 'required|string',
-            'nama_barang' => 'required|string',
+            'nama_barang' => 'required|string|unique:data_barang,nama_barang',
             'kategori_id' => 'required|integer',
             'vendor' => 'required|string',
             'image' => 'required|mimes:png,jpg,jpeg',
