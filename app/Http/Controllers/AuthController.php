@@ -29,7 +29,7 @@ class AuthController extends Controller
 
             return redirect('dashboard')->with('success', 'Berhasil Masuk!');
         }
-        return redirect('login')->with('failed', 'Username atau Password Salah');
+        return redirect('login')->with('failed', 'Email atau Password Salah');
     }
 
     public function logout(Request $request)
