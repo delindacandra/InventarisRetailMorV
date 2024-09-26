@@ -59,13 +59,22 @@
                 </a>
             </li>
             <li class="nav-header">TAMBAHAN</li>
-            <li class="nav-item">
+            <li class="nav-item mb-3">
                 <a href="{{ url('profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
                         Profile
                     </p>
                 </a>
+            </li>
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button class="nav-link {{ $activeMenu == 'keluar' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-power-off"></i>
+                        <p>Keluar</p>
+                    </button>
+                </form>
             </li>
         </ul>
     </nav>
