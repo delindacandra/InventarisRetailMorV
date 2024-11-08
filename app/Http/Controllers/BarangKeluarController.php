@@ -8,6 +8,7 @@ use App\Models\BarangModel;
 use App\Models\DetailBarangKeluarModel;
 use App\Models\FungsiModel;
 use App\Models\KategoriModel;
+use App\Models\SAModel;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -22,6 +23,7 @@ class BarangKeluarController extends Controller
         ];
         $activeMenu = 'barang_keluar';
         $fungsi = FungsiModel::all();
+    
         return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'fungsi' => $fungsi]);
     }
 
@@ -68,6 +70,7 @@ class BarangKeluarController extends Controller
         $barang = BarangModel::all();
         $kategori = KategoriModel::all();
         $fungsi = FungsiModel::all();
+        $sa = SAModel::all();
 
         $lastKode = BarangKeluarModel::latest()->first();
         if ($lastKode) {
@@ -78,7 +81,7 @@ class BarangKeluarController extends Controller
         }
 
         $activeMenu = 'barang_keluar';
-        return view('barang_keluar.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'kategori' => $kategori, 'fungsi' => $fungsi, 'barang' => $barang, 'newKodeBarang' => $newKodeBarang]);
+        return view('barang_keluar.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'kategori' => $kategori, 'fungsi' => $fungsi, 'barang' => $barang, 'newKodeBarang' => $newKodeBarang, 'sa' => $sa]);
     }
 
     public function list_form(Request $request)

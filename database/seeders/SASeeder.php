@@ -15,36 +15,37 @@ class SASeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('sales_area')->truncate();
         $data = [
             [
                 'sa_id' => 1,
                 'kode_sa' => 'SA01',
-                'nama_sa' => 'Surabaya'
+                'nama_sa' => 'SA Surabaya'
             ],
             [
                 'sa_id' => 2,
                 'kode_sa' => 'SA02',
-                'nama_sa' => 'Malang'
+                'nama_sa' => 'SA Malang'
             ],
             [
                 'sa_id' => 3,
                 'kode_sa' => 'SA03',
-                'nama_sa' => 'Kediri'
+                'nama_sa' => 'SA Kediri'
             ],
             [
                 'sa_id' => 4,
                 'kode_sa' => 'SA04',
-                'nama_sa' => 'Bali'
+                'nama_sa' => 'SA Bali'
             ],
             [
                 'sa_id' => 5,
                 'kode_sa' => 'SA05',
-                'nama_sa' => 'NTB'
+                'nama_sa' => 'SA NTB'
             ],
             [
                 'sa_id' => 6,
                 'kode_sa' => 'SA06',
-                'nama_sa' => 'NTT'
+                'nama_sa' => 'SA NTT'
             ],
         ];
         DB::table('sales_area')->insert($data);

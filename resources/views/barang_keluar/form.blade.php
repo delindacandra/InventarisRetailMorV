@@ -59,6 +59,19 @@
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
+                        </div><div class="form-group row">
+                            <label class="col-3 control-label col-form-label">Sales Area</label>
+                            <div class="col-9">
+                                <select class="form-control" id="sa_id" name="sa_id" required>
+                                    <option value="">- Pilih SA -</option>
+                                    @foreach ($sa as $i)
+                                        <option value="{{ $i->sa_id }}">{{ $i->nama_sa }}</option>
+                                    @endforeach
+                                </select>
+                                @error('i')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-3 control-label col-form-label">Fungsi</label>
