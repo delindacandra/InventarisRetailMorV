@@ -118,6 +118,7 @@
                         if (barangKeluarId === lastBarangKeluarId) {
                             // Merge tanggal, keterangan, and aksi sel dan sembunyikan duplikasi
                             $(rows).eq(i).find('td:eq(1)').css('display', 'none'); // Tanggal
+                            $(rows).eq(i).find('td:eq(2)').css('display', 'none'); // Fungsi
                             $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Keterangan
                             $(rows).eq(i).find('td:eq(6)').css('display', 'none'); // Aksi
                         } else {
@@ -127,6 +128,8 @@
 
                             $(rows).eq(i).find('td:eq(1)').attr('rowspan',
                                 rowspanCount); // Tanggal
+                            $(rows).eq(i).find('td:eq(2)').attr('rowspan',
+                                rowspanCount); // Fungsi
                             $(rows).eq(i).find('td:eq(5)').attr('rowspan',
                                 rowspanCount); // Keterangan
                             $(rows).eq(i).find('td:eq(6)').attr('rowspan',
