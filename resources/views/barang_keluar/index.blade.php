@@ -20,9 +20,9 @@
                 <label for="end_date" class="mr-2">End Date:</label>
                 <input type="date" id="end_date" class="form-control">
                 <button id="filter_date" class="btn btn-primary ml-2">Filter</button>
-            </div>
+            
         </div>
-        
+
         <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_keluar">
             <thead>
                 <tr>
