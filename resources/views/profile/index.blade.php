@@ -48,6 +48,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#fungsi" data-toggle="tab"
+                                onclick="loadTabContent('sa')">Sales Area</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#fungsi" data-toggle="tab"
                                 onclick="loadTabContent('fungsi')">Fungsi</a>
                         </li>
                     </ul>
@@ -94,6 +98,38 @@
                         </div>
                     </div>
                     <!-- /.kategori -->
+
+                    <!-- salesarea -->
+                    <div class="tab-pane" id="sa">
+                        <div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Sales Area Jatimbalinus</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div style="max-height: 300px; overflow-y:auto;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">No</th>
+                                                    <th>Sales Area</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($sa as $sa)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $sa->nama_sa }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.salesarea -->
 
                     <!-- fungsi -->
                     <div class="tab-pane" id="fungsi">
