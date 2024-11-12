@@ -7,7 +7,6 @@ use App\Models\BarangKeluarModel;
 use App\Models\BarangModel;
 use App\Models\DetailBarangKeluarModel;
 use App\Models\FungsiModel;
-use App\Models\KategoriModel;
 use App\Models\SAModel;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -67,8 +66,7 @@ class BarangKeluarController extends Controller
         ];
 
         $barang = BarangModel::all();
-        $kategori = KategoriModel::all();
-        $fungsi = FungsiModel::all();
+        $fungsi = FungsiModel::all()->sortBy('nama_fungsi');
         $sa = SAModel::all();
 
         $lastKode = BarangKeluarModel::latest()->first();
@@ -80,16 +78,12 @@ class BarangKeluarController extends Controller
         }
 
         $activeMenu = 'barang_keluar';
-        return view('barang_keluar.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'kategori' => $kategori, 'fungsi' => $fungsi, 'barang' => $barang, 'newKodeBarang' => $newKodeBarang, 'sa' => $sa]);
+        return view('barang_keluar.form', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'fungsi' => $fungsi, 'barang' => $barang, 'newKodeBarang' => $newKodeBarang, 'sa' => $sa]);
     }
 
-    public function list_form(Request $request)
+    public function list_form()
     {
-        $barangs = BarangModel::with(['kategori', 'stok'])->orderBy('nama_barang', 'asc');
-
-        if ($request->kategori_id) {
-            $barangs->where('kategori_id', $request->kategori_id);
-        }
+        $barangs = BarangModel::with('stok')->orderBy('nama_barang', 'asc');
 
         return DataTables::of($barangs)
             ->addIndexColumn()
@@ -154,29 +148,6 @@ class BarangKeluarController extends Controller
             }
         }
         return redirect('/barang_keluar')->with('success', 'Data barang keluar berhasil disimpan');
-    }
-
-    public function show(string $id)
-    {
-        $detail_barang_keluar = DetailBarangKeluarModel::where('barang_keluar_id', $id)->get();
-        if (!$detail_barang_keluar) {
-            return redirect('/')->with('error', 'Detail barang keluar tidak ditemukan');
-        }
-
-        $breadcrumb = (object) [
-            'title' => 'Detail Barang Keluar',
-            'list' => ['Home', 'Barang Keluar', 'Detail']
-        ];
-
-        $page = (object) [
-            'title' => 'Detail Barang Keluar'
-        ];
-
-
-        $barang_keluar = BarangKeluarModel::find($id);
-
-        $activeMenu = 'barang_keluar';
-        return view('barang_keluar.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'detail_barang_keluar' => $detail_barang_keluar, 'barang_keluar' => $barang_keluar, 'activeMenu' => $activeMenu]);
     }
 
     public function destroy(string $id)
