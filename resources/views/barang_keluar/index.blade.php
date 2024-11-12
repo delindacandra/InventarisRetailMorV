@@ -15,23 +15,29 @@
             </div>
             <!-- Searchable -->
             <div class="form-inline mb-3">
-                {{-- searchable --}}
+                <label for="start_date" class="mr-2">Start Date:</label>
+                <input type="date" id="start_date" class="form-control mr-2">
+                <label for="end_date" class="mr-2">End Date:</label>
+                <input type="date" id="end_date" class="form-control">
+                <button id="filter_date" class="btn btn-primary ml-2">Filter</button>
             </div>
-            <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_keluar">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Sales Area</th>
-                        <th>Fungsi</th>
-                        <th>Nama Barang</th>
-                        <th>Jumlah</th>
-                        <th>Keterangan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-            </table>
         </div>
+        
+        <table class="table-bordered table-striped table-hover table-sm table" id="table_barang_keluar">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Sales Area</th>
+                    <th>Fungsi</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah</th>
+                    <th>Keterangan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
     </div>
 @endsection
 
