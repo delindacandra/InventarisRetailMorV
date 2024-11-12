@@ -14,7 +14,7 @@ class BarangKeluarModel extends Model
     protected $primaryKey = 'barang_keluar_id';
     protected $fillable = ['kode_barang_keluar', 'fungsi_id', 'sa_id', 'tanggal_keluar'];
 
-    public function salesArea(): BelongsTo
+    public function sa(): BelongsTo
     {
         return $this->belongsTo(SAModel::class, 'sa_id', 'sa_id');
     }

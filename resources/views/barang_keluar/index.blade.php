@@ -22,6 +22,7 @@
                     <tr>
                         <th>No</th>
                         <th>Tanggal</th>
+                        <th>Sales Area</th>
                         <th>Fungsi</th>
                         <th>Nama Barang</th>
                         <th>Jumlah</th>
@@ -73,6 +74,12 @@
                         }
                     },
                     {
+                        data: "barang_keluar.sa.nama_sa",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
                         data: "barang_keluar.fungsi.nama_fungsi",
                         className: "",
                         orderable: false,
@@ -118,9 +125,10 @@
                         if (barangKeluarId === lastBarangKeluarId) {
                             // Merge tanggal, keterangan, and aksi sel dan sembunyikan duplikasi
                             $(rows).eq(i).find('td:eq(1)').css('display', 'none'); // Tanggal
-                            $(rows).eq(i).find('td:eq(2)').css('display', 'none'); // Fungsi
-                            $(rows).eq(i).find('td:eq(5)').css('display', 'none'); // Keterangan
-                            $(rows).eq(i).find('td:eq(6)').css('display', 'none'); // Aksi
+                            $(rows).eq(i).find('td:eq(2)').css('display', 'none'); // SA
+                            $(rows).eq(i).find('td:eq(3)').css('display', 'none'); // Fungsi
+                            $(rows).eq(i).find('td:eq(6)').css('display', 'none'); // Keterangan
+                            $(rows).eq(i).find('td:eq(7)').css('display', 'none'); // Aksi
                         } else {
                             var rowspanCount = api.rows(function(idx, data, node) {
                                 return data.barang_keluar_id === barangKeluarId;
@@ -129,11 +137,13 @@
                             $(rows).eq(i).find('td:eq(1)').attr('rowspan',
                                 rowspanCount); // Tanggal
                             $(rows).eq(i).find('td:eq(2)').attr('rowspan',
+                                rowspanCount); // SA
+                            $(rows).eq(i).find('td:eq(3)').attr('rowspan',
                                 rowspanCount); // Fungsi
-                            $(rows).eq(i).find('td:eq(5)').attr('rowspan',
-                                rowspanCount); // Keterangan
                             $(rows).eq(i).find('td:eq(6)').attr('rowspan',
-                                rowspanCount); // Aksi
+                                rowspanCount); // Keterangan
+                            $(rows).eq(i).find('td:eq(7)').attr('rowspan',
+                                rowspanCount); // Aksi 
                         }
                         lastBarangKeluarId = barangKeluarId;
                     });

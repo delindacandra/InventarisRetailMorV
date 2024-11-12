@@ -22,16 +22,15 @@ class BarangKeluarController extends Controller
             'list' => ['Home', 'Barang Keluar']
         ];
         $activeMenu = 'barang_keluar';
-        $fungsi = FungsiModel::all();
     
-        return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'fungsi' => $fungsi]);
+        return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
     {
         $barangKeluars = DetailBarangKeluarModel::select('barang_keluar_id', 'barang_id', 'jumlah', 'keterangan')
-            ->with('barang', 'barang_keluar', 'barang_keluar.fungsi');
-
+            ->with('barang', 'barang_keluar', 'barang_keluar.fungsi', 'barang_keluar.sa');
+        
         if ($request->has('start_date') && $request->start_date) {
             $barangKeluars->whereHas('barang_keluar', function ($query) use ($request) {
                 $query->whereDate('tanggal_keluar', '>=', $request->start_date);
@@ -110,6 +109,7 @@ class BarangKeluarController extends Controller
         $request->validate([
             'kode_barang_keluar' => 'required|string',
             'fungsi_id' => 'required|integer',
+            'sa_id' => 'required|integer',
             'keterangan' => 'required|string',
             'tanggal_keluar' => 'required|date',
             'items' => 'required|string',
@@ -127,6 +127,7 @@ class BarangKeluarController extends Controller
         $barangKeluar = BarangKeluarModel::create([
             'kode_barang_keluar' => $request->kode_barang_keluar,
             'fungsi_id' => $request->fungsi_id,
+            'sa_id' => $request->sa_id,
             'tanggal_keluar' => $request->tanggal_keluar,
         ]);
 
