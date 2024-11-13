@@ -112,8 +112,22 @@
                     </div>
                 </div>
                 <!-- End Permintaan Fungsi -->
-            </div>
-            
+
+                 <!-- SlowMoving -->
+                 <div class="col-8 col-lg-5 col-xxl-9 d-flex">
+                    <div class="card flex-fill w-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">5 Barang SlowMoving</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart chart-sm">
+                                {!! $slowMovingChart->container() !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- SlowMoving -->
+            </div> 
 
         </div>
     </div>
@@ -121,14 +135,14 @@
 
 @section('js')
     <script src="{{ $top5chart->cdn() }}"></script>
-
     {{ $top5chart->script() }}
 
     <script src="{{ $permintaanBarangChart->cdn() }}"></script>
-
     {{ $permintaanBarangChart->script() }}
 
     <script src="{{ $fungsiChart->cdn() }}"></script>
-
     {{ $fungsiChart->script() }}
+
+    <script src="{{ $slowMovingChart->cdn() }}"></script>
+    {{ $slowMovingChart->script() }}
 @endsection
