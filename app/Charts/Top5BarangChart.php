@@ -27,7 +27,6 @@ class Top5BarangChart
         $data = $topBarang->pluck('stok')->toArray();
         return $this->chart->barChart()
             ->setTitle('Berdasarkan stok terbanyak')
-            // ->setSubtitle('Berdasarkan stok yang tersedia')
             ->addData('Stok', $data)
             ->setHeight(275)
             ->setXAxis($labels);
