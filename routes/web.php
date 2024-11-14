@@ -53,6 +53,7 @@ Route::group(['prefix' => 'barang_keluar'], function () {
     Route::post('/list_form', [BarangKeluarController::class, 'list_form']);
     Route::post('/', [BarangKeluarController::class, 'store']);
     Route::delete('/{id}', [BarangKeluarController::class, 'destroy']);
+    Route::get('/cetak/{id}', [BarangKeluarController::class, 'cetak'])->name('barang_keluar.cetak');
 });
 
 Route::group(['prefix' => 'profile'], function () {

@@ -8,6 +8,8 @@ use App\Models\BarangModel;
 use App\Models\DetailBarangKeluarModel;
 use App\Models\FungsiModel;
 use App\Models\SAModel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -21,7 +23,7 @@ class BarangKeluarController extends Controller
             'list' => ['Home', 'Barang Keluar']
         ];
         $activeMenu = 'barang_keluar';
-    
+
         return view('barang_keluar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 
@@ -29,7 +31,7 @@ class BarangKeluarController extends Controller
     {
         $barangKeluars = DetailBarangKeluarModel::select('barang_keluar_id', 'barang_id', 'jumlah', 'keterangan')
             ->with('barang', 'barang_keluar', 'barang_keluar.fungsi', 'barang_keluar.sa');
-        
+
         if ($request->has('start_date') && $request->start_date) {
             $barangKeluars->whereHas('barang_keluar', function ($query) use ($request) {
                 $query->whereDate('tanggal_keluar', '>=', $request->start_date);
@@ -45,7 +47,8 @@ class BarangKeluarController extends Controller
         return DataTables::of($barangKeluars)
             ->addIndexColumn()
             ->addColumn('aksi', function ($barangKeluars) {
-                $btn = '<form class="d-inline-block" method="POST" action="' . url('/barang_keluar/' . $barangKeluars->barang_keluar_id) . '">'
+                $btn = '<a href="' . url('/barang_keluar/cetak/' . $barangKeluars->barang_keluar_id) . '" class="btn btn-info btn-sm" target="_blank">Cetak</a> ';
+                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang_keluar/' . $barangKeluars->barang_keluar_id) . '">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
                 return $btn;
@@ -111,9 +114,9 @@ class BarangKeluarController extends Controller
 
         $items = json_decode($request->items, true);
 
-        foreach($items as $item){
-            $barang =BarangModel::find($item['barang_id']);
-            if($barang && $barang->stok && $barang->stok->stok <$item['jumlah']){
+        foreach ($items as $item) {
+            $barang = BarangModel::find($item['barang_id']);
+            if ($barang && $barang->stok && $barang->stok->stok < $item['jumlah']) {
                 return redirect()->back()->with('error', 'Jumlah barang melebihi stok yang tersedia');
             }
         }
@@ -170,5 +173,18 @@ class BarangKeluarController extends Controller
     public function export()
     {
         return Excel::download(new BarangKeluarExport(), "barang keluar.xlsx");
+    }
+
+    public function cetak($id)
+    {
+        $barangKeluar = BarangKeluarModel::with('detailBarangKeluar')->findOrFail($id);
+
+        $pdf = PDF::loadView('barang_keluar.tanda_terima', compact('barangKeluar'));
+
+        $filename = 'Tanda_Terima_' . Carbon::parse($barangKeluar->tanggal_keluar)->format('d-m-Y') . '.pdf';
+
+        return $pdf->download($filename);
+        // return view('barang_keluar.tanda_terima', compact('barangKeluar'));
+
     }
 }
