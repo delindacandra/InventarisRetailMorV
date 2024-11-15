@@ -47,7 +47,7 @@
                                 onclick="loadTabContent('kategori')">Kategori</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#fungsi" data-toggle="tab"
+                            <a class="nav-link" href="#sa" data-toggle="tab"
                                 onclick="loadTabContent('sa')">Sales Area</a>
                         </li>
                         <li class="nav-item">
