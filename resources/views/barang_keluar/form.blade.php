@@ -22,6 +22,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
+                                <th>Gambar</th>
                                 <th>Stok</th>
                                 <th>Aksi</th>
                             </tr>
@@ -31,9 +32,11 @@
                                 <tr data-kategori="{{ $barang->kategori_id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
+                                    <td><img src="{{ asset('storage/barang/' . $barang->image) }}" alt="Foto Barang"
+                                    style="max-width: 100px; max-height: 100px; object-fit: contain;"></td>
                                     <td>{{ $barang->stok->stok }}</td>
                                     <td><button class="btn btn-success btn-sm barang-keluar"
-                                            data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}"
+                                            data-id="{{ $barang->barang_id }}" data-nama="{{ $barang->nama_barang }}" data-image="{{ $barang->image}}"
                                             data-stok="{{ $barang->stok->stok }}"
                                             {{ $barang->stok->stok == 0 ? 'disabled' : '' }}>
                                             <i class="fas fa-minus"></i></button></td>
