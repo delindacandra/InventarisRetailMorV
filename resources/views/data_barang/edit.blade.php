@@ -51,7 +51,7 @@
                         <label class="col-3 col-3 control-label col-form-label">Jumlah Barang</label>
                         <div class="col-9">
                             <input type="number" class="form-control" id="stok" name="stok"
-                                value="{{ old('stok', $stok->stok) }}" required>
+                                value="{{ old('stok', $stok->stok ?? '50') }}" required>
                             @error('stok')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
